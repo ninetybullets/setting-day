@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Setting Day — AI 세팅, 하루면 끝</title>
+<meta name="description" content="Claude를 처음 켜는 사람을 위한 셀프서브 온보딩. L0~L4 레벨 사다리로 챗 앱부터 Claude Code 확장까지 막힘없이." />
+<!-- Open Graph / link preview -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Setting Day" />
+<meta property="og:title" content="Setting Day — AI 세팅, 하루면 끝" />
+<meta property="og:description" content="Claude를 처음 켜는 사람을 위한 셀프서브 온보딩. L0~L4 레벨 사다리로 챗 앱부터 Claude Code 확장까지 막힘없이." />
+<meta property="og:url" content="https://ninetybullets.github.io/setting-day/" />
+<meta property="og:image" content="https://ninetybullets.github.io/setting-day/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Setting Day — Claude 입문자를 위한 L0–L4 레벨 사다리 온보딩" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Setting Day — AI 세팅, 하루면 끝" />
+<meta name="twitter:description" content="Claude 입문자를 위한 셀프서브 온보딩. L0~L4 레벨 사다리로 챗 앱부터 Claude Code까지." />
+<meta name="twitter:image" content="https://ninetybullets.github.io/setting-day/og-image.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500;1,9..144,900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#F4EFE3; --paper-2:#EDE6D6; --card:#FBF8F0;
+    --ink:#211C16; --ink-soft:#5E564A; --ink-faint:#8A8170;
+    --clay:#C2562F; --clay-deep:#9E4023; --clay-tint:#F0DDD0;
+    --olive:#5F6A3A; --olive-tint:#E2E5CF;
+    --amber:#B9772A;
+    --line:#DAD1BD; --line-strong:#C9BFA6;
+    --shadow:18px 18px 0 rgba(33,28,22,.06);
+    --r:14px;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --sans:'IBM Plex Sans KR',system-ui,sans-serif;
+    --disp:'Fraunces',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-weight:400; line-height:1.7;
+    font-size:17px; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* paper grain overlay */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:0 26px; position:relative; z-index:2}
+  a{color:inherit}
+  h1,h2,h3{line-height:1.12; margin:0; font-weight:600; letter-spacing:-.01em}
+  .mono{font-family:var(--mono)}
+  .kicker{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--clay-deep); font-weight:600}
+
+  /* ---- nav ---- */
+  header.nav{position:sticky; top:0; z-index:50; background:rgba(244,239,227,.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  .nav-in{display:flex; align-items:center; justify-content:space-between; height:62px}
+  .brand{font-family:var(--disp); font-weight:900; font-size:21px; letter-spacing:-.02em; display:flex; align-items:center; gap:9px}
+  .brand .dot{width:11px; height:11px; border-radius:50%; background:var(--clay); box-shadow:0 0 0 4px var(--clay-tint)}
+  .nav-links{display:flex; gap:26px; align-items:center; font-size:14.5px; font-weight:500}
+  .nav-links a{text-decoration:none; color:var(--ink-soft); transition:color .2s}
+  .nav-links a:hover{color:var(--clay-deep)}
+  .nav-badge{font-family:var(--mono); font-size:11px; color:var(--ink-faint); border:1px solid var(--line-strong); border-radius:100px; padding:4px 10px}
+  @media(max-width:760px){ .nav-links a:not(.nav-badge){display:none} }
+
+  /* ---- hero ---- */
+  .hero{padding:78px 0 48px; position:relative}
+  .hero-grid{display:grid; grid-template-columns:1.35fr .85fr; gap:40px; align-items:center}
+  .hero h1{font-size:clamp(38px,7vw,76px); font-weight:700; letter-spacing:-.03em}
+  .hero h1 .sig{font-family:var(--disp); font-style:italic; font-weight:500; color:var(--clay)}
+  .hero .lead{font-size:clamp(17px,2.1vw,20px); color:var(--ink-soft); max-width:46ch; margin:24px 0 0}
+  .hero .lead b{color:var(--ink); font-weight:600}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:34px}
+  .btn{display:inline-flex; align-items:center; gap:9px; font-family:var(--sans); font-weight:600; font-size:15.5px; padding:14px 24px; border-radius:100px; text-decoration:none; border:1.5px solid transparent; cursor:pointer; transition:transform .15s, box-shadow .15s, background .2s}
+  .btn-primary{background:var(--clay-deep); color:#FBF6EE; box-shadow:0 4px 0 #6f2c16}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 6px 0 #6f2c16}
+  .btn-primary:active{transform:translateY(2px); box-shadow:0 1px 0 #6f2c16}
+  .btn-ghost{background:transparent; border-color:var(--line-strong); color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--clay); color:var(--clay-deep)}
+
+  /* ladder motif in hero */
+  .ladder-art{position:relative; height:330px; border-left:2px dashed var(--line-strong); margin-left:24px}
+  .rung{position:absolute; left:-9px; display:flex; align-items:center; gap:14px; animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+  .rung .node{width:18px; height:18px; border-radius:50%; background:var(--paper); border:2px solid var(--clay); flex:none}
+  .rung .lbl{font-family:var(--mono); font-size:13px; color:var(--ink-soft); white-space:nowrap; background:var(--card); border:1px solid var(--line); padding:5px 11px; border-radius:8px; box-shadow:3px 3px 0 rgba(33,28,22,.05)}
+  .rung.paid .node{border-color:var(--clay-deep); background:var(--clay); box-shadow:0 0 0 4px var(--clay-tint)}
+  .rung:nth-child(1){top:0%; animation-delay:.15s} .rung:nth-child(2){top:23%; animation-delay:.28s}
+  .rung:nth-child(3){top:46%; animation-delay:.41s} .rung:nth-child(4){top:69%; animation-delay:.54s}
+  .rung:nth-child(5){top:92%; animation-delay:.67s}
+  @keyframes rise{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none}}
+  @media(max-width:880px){ .hero-grid{grid-template-columns:1fr} .ladder-art{display:none} }
+
+  /* section frame */
+  section{padding:60px 0; position:relative}
+  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:34px; flex-wrap:wrap}
+  .sec-head h2{font-size:clamp(26px,4vw,38px)}
+  .sec-head p{color:var(--ink-soft); margin:0; font-size:16px}
+  .rule{border:0; border-top:1px solid var(--line); margin:0}
+
+  /* ---- branch ---- */
+  .branch-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+  .branch{display:block; text-decoration:none; background:var(--card); border:1.5px solid var(--line-strong); border-radius:var(--r); padding:30px 28px; transition:transform .18s, box-shadow .18s, border-color .18s; box-shadow:var(--shadow)}
+  .branch:hover{transform:translateY(-4px); border-color:var(--clay); box-shadow:22px 22px 0 rgba(194,86,47,.08)}
+  .branch .emoji{font-size:30px}
+  .branch h3{font-size:23px; margin:14px 0 8px}
+  .branch p{color:var(--ink-soft); margin:0 0 16px; font-size:15.5px}
+  .branch .go{font-family:var(--mono); font-size:13.5px; color:var(--clay-deep); font-weight:600}
+  .branch .lv{font-family:var(--mono); font-size:12px; color:var(--ink-faint)}
+  @media(max-width:640px){ .branch-grid{grid-template-columns:1fr} }
+
+  /* ---- levels ladder ---- */
+  .levels{counter-reset:lv -1}
+  .level{display:grid; grid-template-columns:128px 1fr; gap:28px; padding:34px 0; border-top:1px solid var(--line); position:relative}
+  .level.reveal{opacity:0; transform:translateY(22px)}
+  .level.reveal.in{opacity:1; transform:none; transition:opacity .6s, transform .6s}
+  .lv-mark{position:relative}
+  .lv-num{font-family:var(--disp); font-weight:900; font-size:54px; line-height:.9; color:var(--clay); letter-spacing:-.04em}
+  .lv-spine{position:absolute; left:14px; top:64px; bottom:-34px; width:2px; background:repeating-linear-gradient(var(--line-strong) 0 6px, transparent 6px 12px)}
+  .level:last-child .lv-spine{display:none}
+  .tag{display:inline-block; font-family:var(--mono); font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:100px; margin-top:10px}
+  .tag.free{background:var(--olive-tint); color:var(--olive)}
+  .tag.paid{background:var(--clay-tint); color:var(--clay-deep)}
+  .lv-body h3{font-size:23px; margin-bottom:6px}
+  .lv-goal{color:var(--ink-soft); margin:0 0 18px; font-size:15.5px}
+  .steps{list-style:none; margin:0 0 18px; padding:0; counter-reset:s}
+  .steps li{counter-increment:s; position:relative; padding:7px 0 7px 34px; font-size:15.5px; border-bottom:1px dotted var(--line)}
+  .steps li::before{content:counter(s); position:absolute; left:0; top:7px; width:22px; height:22px; background:var(--ink); color:var(--paper); font-family:var(--mono); font-size:12px; font-weight:600; border-radius:50%; display:grid; place-items:center}
+  .steps li:last-child{border-bottom:0}
+
+  .cmd{display:flex; align-items:center; gap:10px; background:#241F18; color:#F0E9DA; font-family:var(--mono); font-size:13.5px; border-radius:9px; padding:10px 12px; margin:8px 0; overflow-x:auto}
+  .cmd code{white-space:pre; color:#F0E9DA}
+  .cmd .prompt{color:var(--clay); user-select:none}
+  .cmd .copy{margin-left:auto; flex:none; background:rgba(255,255,255,.08); color:#E9E0CF; border:0; font-family:var(--mono); font-size:11px; padding:5px 9px; border-radius:6px; cursor:pointer; transition:background .2s}
+  .cmd .copy:hover{background:rgba(255,255,255,.18)}
+  .cmd .copy.done{background:var(--olive); color:#fff}
+
+  .os-tabs{display:inline-flex; gap:4px; background:var(--paper-2); border:1px solid var(--line-strong); border-radius:100px; padding:4px; margin-bottom:6px}
+  .os-tabs button{font-family:var(--mono); font-size:12.5px; font-weight:600; border:0; background:transparent; color:var(--ink-soft); padding:6px 14px; border-radius:100px; cursor:pointer; transition:all .2s}
+  .os-tabs button.active{background:var(--ink); color:var(--paper)}
+  .os-panel[hidden]{display:none}
+
+  .checks{display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 16px}
+  .check{font-size:13.5px; background:var(--olive-tint); color:var(--olive); border-radius:8px; padding:6px 11px; font-weight:500}
+  .check::before{content:"✓ "; font-weight:700}
+  .pitfall{display:flex; gap:11px; background:#FBF1E2; border:1px solid #EAD3B0; border-left:3px solid var(--amber); border-radius:9px; padding:13px 15px; font-size:14.5px; color:#5b4a30}
+  .pitfall b{color:var(--amber)}
+  @media(max-width:640px){ .level{grid-template-columns:1fr; gap:6px} .lv-spine{display:none} .lv-mark{display:flex; align-items:center; gap:16px} .lv-num{font-size:42px} .tag{margin-top:0} }
+
+  /* ---- cost ---- */
+  .cost-wrap{background:var(--card); border:1.5px solid var(--line-strong); border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow)}
+  table.cost{width:100%; border-collapse:collapse; font-size:15.5px}
+  table.cost th, table.cost td{padding:15px 18px; text-align:left; border-bottom:1px solid var(--line)}
+  table.cost thead th{background:var(--paper-2); font-family:var(--mono); font-size:13px; letter-spacing:.02em}
+  table.cost thead th:nth-child(2){color:var(--olive)} table.cost thead th:nth-child(3){color:var(--clay-deep)}
+  table.cost td:first-child{font-weight:500}
+  table.cost tr:last-child td{border-bottom:0}
+  .yes{color:var(--olive); font-weight:700} .no{color:var(--clay-deep); font-weight:700}
+  .cost-note{font-size:13.5px; color:var(--ink-faint); margin-top:14px; font-family:var(--mono)}
+  .min-pay{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:22px}
+  .min-pay div{background:var(--paper-2); border:1px solid var(--line); border-radius:11px; padding:16px}
+  .min-pay .amt{font-family:var(--disp); font-weight:900; font-size:30px; color:var(--clay)}
+  .min-pay .what{font-size:14px; color:var(--ink-soft)}
+  @media(max-width:640px){ .min-pay{grid-template-columns:1fr} table.cost{font-size:14px} table.cost th,table.cost td{padding:12px} }
+
+  /* ---- safety ---- */
+  .safety{background:var(--ink); color:#EDE5D5; border-radius:18px; padding:40px 36px; position:relative; overflow:hidden}
+  .safety h2{color:#fff; font-size:clamp(24px,3.6vw,32px)}
+  .safety .kicker{color:#E89B78}
+  .safety p{color:#C7BCA8; max-width:60ch}
+  .safe-checks{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:24px}
+  .safe-checks div{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:11px; padding:18px}
+  .safe-checks h4{margin:0 0 6px; font-size:15.5px; color:#F3D9C7}
+  .safe-checks p{margin:0; font-size:13.5px; color:#B6AB97}
+  @media(max-width:640px){ .safe-checks{grid-template-columns:1fr} }
+
+  /* ---- kit ---- */
+  .kit-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+  .kit{background:var(--card); border:1.5px solid var(--line-strong); border-radius:var(--r); padding:28px; box-shadow:var(--shadow)}
+  .kit .ico{font-family:var(--mono); font-size:12px; color:var(--clay-deep); font-weight:600; letter-spacing:.1em}
+  .kit h3{font-size:21px; margin:8px 0 6px}
+  .kit p{color:var(--ink-soft); font-size:15px; margin:0 0 18px}
+  .dl-row{display:flex; gap:10px; flex-wrap:wrap}
+  .dl{display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:13px; font-weight:600; text-decoration:none; padding:9px 16px; border-radius:9px; border:1.5px solid var(--line-strong); color:var(--ink); transition:all .18s}
+  .dl:hover{border-color:var(--clay); color:var(--clay-deep); background:var(--clay-tint)}
+  @media(max-width:640px){ .kit-grid{grid-template-columns:1fr} }
+
+  /* ---- faq ---- */
+  .faq details{border-top:1px solid var(--line); padding:6px 0}
+  .faq details summary{cursor:pointer; list-style:none; padding:16px 40px 16px 4px; font-size:17px; font-weight:600; position:relative}
+  .faq details summary::-webkit-details-marker{display:none}
+  .faq details summary::after{content:"+"; position:absolute; right:8px; top:14px; font-family:var(--mono); font-size:22px; color:var(--clay); transition:transform .25s}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq details .ans{padding:0 4px 18px; color:var(--ink-soft); font-size:15.5px; max-width:64ch}
+  .faq .ans code{font-family:var(--mono); font-size:13.5px; background:var(--paper-2); padding:1px 6px; border-radius:5px}
+
+  /* ---- closing ---- */
+  .closing{text-align:center; padding:80px 0 56px}
+  .closing h2{font-size:clamp(30px,5.5vw,56px); font-weight:700; letter-spacing:-.03em}
+  .closing h2 .sig{font-family:var(--disp); font-style:italic; font-weight:500; color:var(--clay)}
+  .closing p{color:var(--ink-soft); margin:18px 0 30px}
+
+  footer{border-top:1px solid var(--line); padding:34px 0; font-size:13.5px; color:var(--ink-faint)}
+  .foot-in{display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; align-items:center}
+  .foot-in .mono{font-size:12px}
+  footer a{color:var(--clay-deep); text-decoration:none}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important; scroll-behavior:auto !important}
+    .level.reveal{opacity:1; transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <div class="brand"><span class="dot"></span>Setting&nbsp;Day</div>
+    <nav class="nav-links">
+      <a href="#levels">레벨</a>
+      <a href="#cost">비용</a>
+      <a href="#kit">키트</a>
+      <a href="#faq">FAQ</a>
+      <a href="./usage.html">사용편 →</a>
+      <span class="nav-badge mono">최신 · 2026-06-18</span>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="kicker">AI 처음? 오늘 끝냅니다</span>
+        <h1>AI 세팅,<br>하루면 끝.<br><span class="sig">Setting&nbsp;Day</span></h1>
+        <p class="lead">Claude를 처음 켜는 당신을 위한 셀프서브 온보딩. <b>챗 앱부터 Claude Code 확장까지</b>, 자기 레벨에서 시작해 한 단계씩. 매 단계 <b>성공 확인</b>과 <b>흔한 함정</b>까지.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#branch">내 레벨 찾기 →</a>
+          <a class="btn btn-ghost" href="#kit">셋업 키트 받기</a>
+        </div>
+      </div>
+      <div class="ladder-art" aria-hidden="true">
+        <div class="rung"><span class="node"></span><span class="lbl">L0 · 챗 앱 설치</span></div>
+        <div class="rung"><span class="node"></span><span class="lbl">L1 · Skill 켜기</span></div>
+        <div class="rung"><span class="node"></span><span class="lbl">L2 · Connector 연결</span></div>
+        <div class="rung paid"><span class="node"></span><span class="lbl">L3 · Claude Code</span></div>
+        <div class="rung paid"><span class="node"></span><span class="lbl">L4 · Plugins 무장</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANCH -->
+  <section id="branch">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">시작점</span>
+        <h2>어디서 시작할까요?</h2>
+        <p>둘 중 가까운 쪽으로. 언제든 위 레벨로 올라갈 수 있어요.</p>
+      </div>
+      <div class="branch-grid">
+        <a class="branch" href="#level-0">
+          <div class="emoji">💬</div>
+          <h3>그냥 잘 써보고 싶어요</h3>
+          <p>채팅·문서·검색에 AI를 쓰고 싶은 일반 사용자. 무료로 시작합니다.</p>
+          <div class="go">L0 → L2 트랙으로 ↓</div>
+          <div class="lv">챗 앱 · Skills · Connector</div>
+        </a>
+        <a class="branch" href="#level-3">
+          <div class="emoji">⌘</div>
+          <h3>코딩·자동화에 쓸래요</h3>
+          <p>터미널·IDE에서 코딩 에이전트를 쓰려는 개발자. 유료(Pro+)가 필요합니다.</p>
+          <div class="go">L3 → L4 트랙으로 ↓</div>
+          <div class="lv">Claude Code · MCP · Plugins</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEVELS -->
+  <section id="levels">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">레벨 사다리</span>
+        <h2>L0 → L4, 한 단계씩</h2>
+        <p>각 레벨 = 목표 · 단계 · ✓ 성공 확인 · ⚠ 함정.</p>
+      </div>
+      <div class="levels">
+
+        <!-- L0 -->
+        <article class="level reveal" id="level-0">
+          <div class="lv-mark"><div class="lv-num">L0</div><span class="tag free">무료 · 누구나</span><div class="lv-spine"></div></div>
+          <div class="lv-body">
+            <h3>입장 — 챗 앱 깔고 로그인</h3>
+            <p class="lv-goal">목표: 5분 안에 Claude와 첫 대화.</p>
+            <ul class="steps">
+              <li><b>데스크톱</b>: <a href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a> → macOS(11+)·Windows(10+) 설치 <span class="mono" style="color:var(--ink-faint);font-size:13px">(Linux는 웹 사용)</span></li>
+              <li><b>모바일</b>: App Store(iOS 17+) 또는 Google Play에서 "Claude" 설치</li>
+              <li><b>웹</b>: <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> 접속 (설치 불필요)</li>
+              <li>Google 또는 이메일로 로그인</li>
+            </ul>
+            <div class="checks"><span class="check">첫 질문에 답이 온다</span></div>
+            <div class="pitfall"><span>⚠</span><div><b>함정</b> — 데스크톱 앱은 Linux 미지원. 리눅스라면 웹(claude.ai)으로 시작하세요.</div></div>
+          </div>
+        </article>
+
+        <!-- L1 -->
+        <article class="level reveal" id="level-1">
+          <div class="lv-mark"><div class="lv-num">L1</div><span class="tag free">무료</span><div class="lv-spine"></div></div>
+          <div class="lv-body">
+            <h3>첫 활용 — 능력 켜고 Skill 써보기</h3>
+            <p class="lv-goal">목표: 파일을 만들고 스킬로 작업을 자동화.</p>
+            <ul class="steps">
+              <li><b>Settings → Capabilities</b>에서 <span class="mono" style="font-size:13.5px">Code execution &amp; file creation</span> 켜기</li>
+              <li><b>Customize → Skills</b>에서 예시 스킬을 토글</li>
+              <li>(선택) 직접 만든 커스텀 스킬 업로드</li>
+            </ul>
+            <div class="checks"><span class="check">스킬로 문서·표를 생성</span></div>
+            <div class="pitfall"><span>⚠</span><div><b>함정</b> — 코드 실행 토글이 꺼져 있으면 커스텀 스킬이 작동하지 않습니다. 커스텀 스킬은 <b>유료(Pro+)</b> 필요.</div></div>
+          </div>
+        </article>
+
+        <!-- L2 -->
+        <article class="level reveal" id="level-2">
+          <div class="lv-mark"><div class="lv-num">L2</div><span class="tag free">무료~</span><div class="lv-spine"></div></div>
+          <div class="lv-body">
+            <h3>연결 — Connector(MCP) 붙이기</h3>
+            <p class="lv-goal">목표: 캘린더·노션 같은 내 도구를 Claude에 연결.</p>
+            <ul class="steps">
+              <li><a href="https://claude.ai/directory" target="_blank" rel="noopener">claude.ai/directory</a>에서 검수된 커넥터 둘러보기</li>
+              <li><b>Settings → Connectors → “+” Add custom connector</b> → 원격 MCP 서버 URL 입력</li>
+              <li>채팅 입력창 “+”에서 커넥터를 켜고 사용</li>
+            </ul>
+            <div class="checks"><span class="check">채팅이 외부 도구를 호출</span></div>
+            <div class="pitfall"><span>⚠</span><div><b>함정</b> — 무료는 커스텀 커넥터 <b>1개</b>까지. 모바일은 직접 추가 불가(웹/데스크톱에서 추가 → 동기화, beta). <b>신뢰할 수 없는 서버는 연결 금지</b>(prompt injection 위험).</div></div>
+          </div>
+        </article>
+
+        <!-- L3 -->
+        <article class="level reveal" id="level-3">
+          <div class="lv-mark"><div class="lv-num">L3</div><span class="tag paid">유료 · Pro+</span><div class="lv-spine"></div></div>
+          <div class="lv-body">
+            <h3>개발자 진입 — Claude Code 설치</h3>
+            <p class="lv-goal">목표: 터미널·IDE에서 코딩 에이전트 사용.</p>
+            <div class="os-tabs" role="tablist" aria-label="설치 OS 선택">
+              <button class="active" data-os="mac" role="tab" aria-selected="true">macOS</button>
+              <button data-os="win" role="tab" aria-selected="false">Windows</button>
+            </div>
+            <div class="os-panel" data-os="mac">
+              <div class="cmd"><span class="prompt">$</span><code>curl -fsSL https://claude.ai/install.sh | bash</code><button class="copy">복사</button></div>
+            </div>
+            <div class="os-panel" data-os="win" hidden>
+              <div class="cmd"><span class="prompt">&gt;</span><code>irm https://claude.ai/install.ps1 | iex</code><button class="copy">복사</button></div>
+            </div>
+            <ul class="steps">
+              <li>설치 후 첫 실행 <span class="mono" style="font-size:13.5px">claude</span> → 브라우저 로그인</li>
+              <li>IDE: VS Code(1.98+) “Claude Code” 확장 / JetBrains 플러그인(ID 27310, Beta)</li>
+            </ul>
+            <div class="checks"><span class="check">claude 세션이 시작된다</span></div>
+            <div class="pitfall"><span>⚠</span><div><b>함정</b> — 무료 플랜 불가(Pro $17/mo~). <b>IDE 확장만으론 터미널 <span class="mono">claude</span>가 없습니다</b> → CLI를 별도 설치. Windows 데스크톱 Code 탭은 <b>Git for Windows</b> 필요. <span class="mono">ANTHROPIC_API_KEY</span>가 있으면 구독 대신 토큰 과금됨.</div></div>
+          </div>
+        </article>
+
+        <!-- L4 -->
+        <article class="level reveal" id="level-4">
+          <div class="lv-mark"><div class="lv-num">L4</div><span class="tag paid">유료 · 파워</span><div class="lv-spine"></div></div>
+          <div class="lv-body">
+            <h3>파워업 — MCP · Skills · Plugins 무장</h3>
+            <p class="lv-goal">목표: 나만의 도구로 Claude Code를 확장.</p>
+            <p class="mono" style="font-size:13px;color:var(--ink-faint);margin:0 0 4px">MCP 서버 추가</p>
+            <div class="cmd"><span class="prompt">$</span><code>claude mcp add --transport http &lt;name&gt; &lt;url&gt;</code><button class="copy">복사</button></div>
+            <p class="mono" style="font-size:13px;color:var(--ink-faint);margin:10px 0 4px">공식 Skill 마켓 추가 후 설치</p>
+            <div class="cmd"><span class="prompt">$</span><code>/plugin marketplace add anthropics/skills</code><button class="copy">복사</button></div>
+            <p class="mono" style="font-size:13px;color:var(--ink-faint);margin:10px 0 4px">플러그인 설치 (Claude Code 전용)</p>
+            <div class="cmd"><span class="prompt">$</span><code>/plugin install &lt;name&gt;@&lt;marketplace&gt;</code><button class="copy">복사</button></div>
+            <div class="checks" style="margin-top:14px"><span class="check">플러그인·스킬·MCP가 세션에서 작동</span></div>
+            <div class="pitfall"><span>⚠</span><div><b>함정</b> — 확장은 <b>당신 권한으로 코드를 실행</b>합니다. 신뢰하는 출처만. Plugins는 <b>Claude Code 전용</b>(앱·웹 기능 아님).</div></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- COST -->
+  <section id="cost">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">비용 투명하게</span>
+        <h2>무료로 어디까지, 유료는 왜</h2>
+        <p>핵심만: 챗 앱은 무료, Claude Code만 유료.</p>
+      </div>
+      <div class="cost-wrap">
+        <table class="cost">
+          <thead><tr><th>기능</th><th>무료 (Free)</th><th>유료 (Pro $17/mo~ · Max $100~)</th></tr></thead>
+          <tbody>
+            <tr><td>챗 앱 (웹·데스크톱·모바일)</td><td class="yes">○</td><td class="yes">○</td></tr>
+            <tr><td>Skills 사용</td><td class="yes">○</td><td class="yes">○ <span style="color:var(--ink-faint);font-weight:400">(커스텀 포함)</span></td></tr>
+            <tr><td>Connector / MCP</td><td class="yes">○ <span style="color:var(--ink-faint);font-weight:400">(커스텀 1개)</span></td><td class="yes">○ <span style="color:var(--ink-faint);font-weight:400">(무제한)</span></td></tr>
+            <tr><td>Claude Code (코딩 에이전트)</td><td class="no">✕</td><td class="yes">○</td></tr>
+            <tr><td>Plugins</td><td class="no">✕</td><td class="yes">○</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="min-pay">
+        <div><div class="amt">$0</div><div class="what">챗 앱 쓰기 — 웹·데스크톱·모바일, Skill, 커넥터 1개</div></div>
+        <div><div class="amt">$17~</div><div class="what">Claude Code — 가장 싼 Pro(연납 기준 월 $17)부터</div></div>
+        <div><div class="amt">$0</div><div class="what">커넥터 1개 — 무료로 시작 가능</div></div>
+      </div>
+      <p class="cost-note">※ 가격·사용 한도는 변동됩니다. Anthropic은 정확한 메시지 한도를 비공개(5시간·주간 단위). 결제 전 <a href="https://claude.com/pricing" target="_blank" rel="noopener" style="color:var(--clay-deep)">claude.com/pricing</a> 확인.</p>
+    </div>
+  </section>
+
+  <!-- SAFETY -->
+  <section>
+    <div class="wrap">
+      <div class="safety">
+        <span class="kicker">설치 전 1분</span>
+        <h2 style="margin-top:10px">확장 = 코드 실행. 신뢰부터.</h2>
+        <p>Skill · MCP 서버 · Plugin은 당신의 권한으로 코드를 실행하고 파일·도구에 접근할 수 있습니다. 편리한 만큼, 아무거나 설치하면 위험합니다. 설치 전 3가지만 확인하세요.</p>
+        <div class="safe-checks">
+          <div><h4>① 출처</h4><p>공식(anthropics/*) 또는 검증된 마켓인가? 커뮤니티 소스는 신뢰도를 따로 확인.</p></div>
+          <div><h4>② 무엇을 설치하나</h4><p>설치 전 "Will install"(명령·MCP·훅) 목록을 읽었나? 모르는 건 설치하지 않기.</p></div>
+          <div><h4>③ 외부 콘텐츠</h4><p>외부 데이터를 가져오는 서버는 prompt injection 위험. 민감 작업과 분리.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KIT -->
+  <section id="kit">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">셋업 키트</span>
+        <h2>따라 하며 체크</h2>
+        <p>레벨별 체크리스트와 명령어 치트시트. 옆에 띄워두고 쓰세요.</p>
+      </div>
+      <div class="kit-grid">
+        <div class="kit">
+          <div class="ico">CHECKLIST</div>
+          <h3>셋업 체크리스트</h3>
+          <p>L0~L4 전 단계의 ✓ 항목을 한 장에. 어디까지 했는지 바로 확인.</p>
+          <div class="dl-row">
+            <a class="dl" href="./kit/setting-day-checklist.md" download>↓ Markdown</a>
+            <a class="dl" href="./kit/setting-day-checklist.pdf" download>↓ PDF</a>
+          </div>
+        </div>
+        <div class="kit">
+          <div class="ico">CHEAT SHEET</div>
+          <h3>명령어·경로 치트시트</h3>
+          <p>설치 명령, <span class="mono" style="font-size:13px">~/.claude/…</span> 경로, <span class="mono" style="font-size:13px">claude mcp add</span>, <span class="mono" style="font-size:13px">/plugin</span>을 한눈에.</p>
+          <div class="dl-row">
+            <a class="dl" href="./kit/setting-day-cheatsheet.md" download>↓ Markdown</a>
+            <a class="dl" href="./kit/setting-day-cheatsheet.pdf" download>↓ PDF</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">자주 묻는 것</span>
+        <h2>FAQ</h2>
+      </div>
+      <div class="faq">
+        <details open>
+          <summary>꼭 돈을 내야 하나요?</summary>
+          <div class="ans">챗 앱(웹·데스크톱·모바일)은 <b>무료</b>입니다. 코딩 에이전트인 <b>Claude Code만 유료</b>(Pro 연납 월 $17~). Skill·커넥터는 무료에서도 일부 됩니다.</div>
+        </details>
+        <details>
+          <summary>Linux도 되나요?</summary>
+          <div class="ans">데스크톱 앱은 Linux를 지원하지 않습니다. 웹(<code>claude.ai</code>)을 쓰거나, 개발자라면 Claude Code CLI(네이티브 설치)를 사용하세요.</div>
+        </details>
+        <details>
+          <summary>모바일에서 다 되나요?</summary>
+          <div class="ans">채팅과 커넥터 <i>사용</i>은 됩니다. 단 <b>커스텀 커넥터 추가</b>는 웹/데스크톱에서 하고 모바일로 동기화됩니다(모바일 추가는 beta).</div>
+        </details>
+        <details>
+          <summary>VS Code/JetBrains 확장만 깔면 되나요?</summary>
+          <div class="ans">아니요. IDE 확장은 채팅 패널용 CLI만 내장하고 <b>터미널의 <code>claude</code>를 깔아주지 않습니다</b>. <code>claude mcp add</code> 같은 명령을 쓰려면 standalone CLI를 별도 설치하세요.</div>
+        </details>
+        <details>
+          <summary>Skill · MCP · Plugin, 뭐가 다른가요?</summary>
+          <div class="ans"><b>Skill</b> = 능력 폴더(모든 표면에서 사용) · <b>MCP/Connector</b> = 외부 도구 연결(표면마다 추가법 다름) · <b>Plugin</b> = 여러 개를 묶은 패키지(<b>Claude Code 전용</b>).</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="closing">
+    <div class="wrap">
+      <span class="kicker">시작은 지금</span>
+      <h2>오늘이 당신의<br><span class="sig">Setting&nbsp;Day</span>.</h2>
+      <p>레벨 하나만 올려도 충분합니다. 막히면 함정 메모를 보세요.</p>
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn btn-primary" href="#branch">내 레벨에서 시작 →</a>
+        <a class="btn btn-ghost" href="./usage.html">설치 끝났다면 · 사용편 →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>Setting&nbsp;Day · AI 입문 셋업 캠페인</div>
+    <div class="mono">출처: Anthropic 공식 문서 · 조사일 2026-06-18 · 수치는 변동 가능</div>
+  </div>
+</footer>
+
+<script>
+  // OS tab toggle (L3)
+  document.querySelectorAll('.os-tabs').forEach(function(tabs){
+    var section = tabs.closest('.lv-body');
+    tabs.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var os = btn.dataset.os;
+        tabs.querySelectorAll('button').forEach(function(b){ b.classList.toggle('active', b===btn); b.setAttribute('aria-selected', b===btn); });
+        section.querySelectorAll('.os-panel').forEach(function(p){ p.hidden = (p.dataset.os !== os); });
+      });
+    });
+  });
+
+  // copy-to-clipboard
+  document.querySelectorAll('.cmd .copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var code = btn.parentElement.querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(function(){
+        var t = btn.textContent; btn.textContent='복사됨 ✓'; btn.classList.add('done');
+        setTimeout(function(){ btn.textContent=t; btn.classList.remove('done'); }, 1400);
+      });
+    });
+  });
+
+  // scroll reveal
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:.14});
+    document.querySelectorAll('.level.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.level.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+</script>
+</body>
+</html>
