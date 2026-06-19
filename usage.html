@@ -384,7 +384,8 @@
           <div class="uc-head"><h3>subagent — 곁가지 일은 따로 시켜 요약만 받기</h3><span class="lbl official"></span></div>
           <div class="uc-row"><span class="uc-k">언제</span><div class="uc-v">검색·로그·파일 탐색처럼 <b>중간 산출물이 많은</b> 곁가지가 메인 대화를 어지럽힐 때.</div></div>
           <div class="uc-row"><span class="uc-k">예시</span><div class="uc-v">"이 코드베이스에서 X 찾아줘"를 자식 에이전트에게 위임 → 그 에이전트가 <b>자기 컨텍스트</b>에서 처리하고 <b>요약만</b> 메인에 반환(메인 대화는 깔끔).</div></div>
-          <div class="uc-row"><span class="uc-k">함정</span><div class="uc-v"><div class="pitfall"><span>⚠</span><div>한 세션 <b>안</b>에서 도는 도우미입니다 — 결과를 메인에 보고할 뿐, 자기들끼리 대화하지 않습니다(그건 agent-team).</div></div></div></div>
+          <div class="uc-row"><span class="uc-k">함정</span><div class="uc-v"><div class="pitfall"><span>⚠</span><div>한 세션 <b>안</b>에서 도는 도우미입니다 — 결과를 메인에 보고할 뿐, 자기들끼리 대화하지 않습니다(그건 agent team).</div></div></div></div>
+          <div class="uc-row"><span class="uc-k">더</span><div class="uc-v"><a href="./advanced.html#subagent" style="color:var(--clay-deep); font-family:var(--mono); font-size:13px; font-weight:600; text-decoration:none">→ 심화편: 커스텀 subagent 만들기·도구 제한·모델 라우팅</a></div></div>
         </article>
 
         <!-- deep-research -->
@@ -410,25 +411,24 @@
         </div>
         <p class="cmp-note">※ 출처: code.claude.com/docs/en/workflows. Agent team·Workflow는 아래 "더 가면" 참고.</p>
 
-        <!-- 부록 -->
+        <!-- 부록 → 심화편 진입 램프 -->
         <div class="appendix">
           <span class="kicker">더 가면 (입문 범위 밖)</span>
-          <h2>고급 오케스트레이션 — 공식이지만 나중에</h2>
-          <p>아래 둘은 <b>공식 기능</b>이지만, 대량 작업·실험적 설정이라 입문 단계에선 "이런 게 있다"만 알아두세요. 필요해지면 공식 문서로.</p>
+          <h2>고급 오케스트레이션은 심화편에서</h2>
+          <p>아래 둘은 <b>공식 기능</b>이지만 대량 작업·실험적 설정이라 입문 단계에선 "이런 게 있다"만. 제대로 — 만들기·선택 기준까지 — 는 <b><a href="./advanced.html" style="color:#E89B78">심화편</a></b>에서 다룹니다.</p>
           <div class="adv-grid">
             <div class="adv">
               <div class="ah"><h4>workflow</h4><span class="lbl official"></span></div>
               <p>Claude가 <b>JS 스크립트</b>를 짜서 subagent 수십~수백 개를 백그라운드로 오케스트레이션. 코드베이스 전수 감사, 대규모 마이그레이션 같은 "한 대화로 안 되는" 일에.</p>
-              <p>프롬프트에 <code>ultracode</code> 포함하면 트리거. 모든 유료 플랜(Pro는 <code>/config</code>에서 켜기).</p>
-              <a href="https://code.claude.com/docs/en/workflows" target="_blank" rel="noopener">→ docs/en/workflows</a>
+              <a href="./advanced.html#workflow">→ 심화편에서 자세히</a>
             </div>
             <div class="adv">
-              <div class="ah"><h4>agent-team</h4><span class="lbl exp"></span></div>
+              <div class="ah"><h4>agent team</h4><span class="lbl exp"></span></div>
               <p>여러 Claude Code 세션이 <b>팀(lead + teammates)</b>으로 협업 — 공유 task list로 일을 나누고 <b>서로 메시지</b>를 주고받음(subagent와 달리 teammate끼리 대화).</p>
-              <p>기본 꺼짐 — <code>CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</code> 필요. 토큰을 많이 씁니다.</p>
-              <a href="https://code.claude.com/docs/en/agent-teams" target="_blank" rel="noopener">→ docs/en/agent-teams</a>
+              <a href="./advanced.html#agent-team">→ 심화편에서 자세히</a>
             </div>
           </div>
+          <p style="margin:20px 0 0"><a href="./advanced.html" style="color:#E89B78; font-family:var(--mono); font-size:13.5px; font-weight:600; text-decoration:none">→ 심화편 전체 보기 (위임 → 협업 → 자동화)</a></p>
         </div>
       </div>
     </section>
