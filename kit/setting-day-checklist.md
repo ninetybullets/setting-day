@@ -16,7 +16,7 @@
 - [ ] Customize → Skills 에서 예시 스킬 토글
 - [ ] (선택) 커스텀 스킬 업로드
 - [ ] ✅ 스킬로 문서·표 생성
-- ⚠️ 코드 실행 토글 OFF면 커스텀 스킬 작동 안 함 · 커스텀 스킬은 유료(Pro+)
+- ⚠️ 코드 실행(`Code execution and file creation`) 토글 OFF면 스킬 작동 안 함 · 스킬은 Free 포함 전 플랜 가능(토글만 켜면 됨, 유료 아님)
 
 ## L2 · 연결 — Connector(MCP) 붙이기 〔무료~〕
 - [ ] `claude.ai/directory` 에서 검수된 커넥터 둘러보기
@@ -32,7 +32,7 @@
 - [ ] (선택) VS Code 1.98+ "Claude Code" 확장 / JetBrains 플러그인 27310(Beta)
 - [ ] (Windows 데스크톱 Code 탭) Git for Windows 설치 후 앱 재시작
 - [ ] ✅ `claude` 세션이 시작된다
-- ⚠️ 무료 플랜 불가(Pro $17/mo~) · IDE 확장만으론 터미널 `claude` 없음 → CLI 별도 설치 · `ANTHROPIC_API_KEY` 있으면 토큰 과금
+- ⚠️ 무료 플랜 불가(Pro $17/mo~) · IDE 확장만으론 터미널 `claude` 없음 → CLI 별도 설치 · `ANTHROPIC_API_KEY` 있으면 토큰 과금 · Claude Code는 macOS 13+ 요건(데스크톱 앱은 11+로 별개)
 
 ## L4 · 파워업 — MCP · Skills · Plugins 무장 〔유료〕
 - [ ] MCP 추가 — `claude mcp add --transport http <name> <url>` (팀 공유는 `.mcp.json`)

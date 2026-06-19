@@ -15,8 +15,8 @@
 
 | 모드 | 무엇 | 진입 / 사용 | 함정 |
 |---|---|---|---|
-| **플랜모드** | 읽기·탐색만 하고 계획 제안, 승인 후 실행 | `Shift+Tab`(default→acceptEdits→plan) · `/plan` · `--permission-mode plan` | 승인 전엔 편집 안 함. `Ctrl+G`로 계획 편집 |
-| **subagent** | 자식 에이전트가 자체 컨텍스트로 곁가지 처리 후 **요약만 반환** | 작업 위임 시 자동, 또는 커스텀 정의 | 단일 세션 내. 서로 대화 안 함(메인에 보고만) |
+| **플랜모드** | 읽기·탐색만 하고 계획 제안, 승인 후 실행 | `Shift+Tab`(default→acceptEdits→plan) · `/plan fix the auth bug` · `--permission-mode plan` | 승인 전엔 소스 편집 안 함(탐색 셸은 실행). `Ctrl+G`로 계획 편집 |
+| **subagent** | 자식 에이전트가 자체 컨텍스트로 곁가지 처리 후 **요약만 반환** | 작업 위임 시 자동 · 커스텀 `.claude/agents/<name>.md`(YAML frontmatter) | 단일 세션 내. 서로 대화 안 함(메인에 보고만) |
 | **deep-research** | 여러 각도 검색 → 출처 교차검증 → 인용 리포트 | `/deep-research <질문>`(Code 내장 워크플로) · 앱은 "+"→Research | 웹검색 필요, 토큰 많이 씀. 좁은 질문부터 |
 
 ---

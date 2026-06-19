@@ -7,11 +7,12 @@
 |---|---|
 | 네이티브 macOS/Linux/WSL | `curl -fsSL https://claude.ai/install.sh \| bash` |
 | 네이티브 Windows PowerShell | `irm https://claude.ai/install.ps1 \| iex` |
+| 네이티브 Windows CMD | `curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd` |
 | Homebrew (수동 업데이트) | `brew install --cask claude-code` |
-| WinGet | `winget install Anthropic.ClaudeCode` |
+| WinGet (수동 업데이트) | `winget install Anthropic.ClaudeCode` |
 | npm (Node 18+, **sudo 금지**) | `npm install -g @anthropic-ai/claude-code` |
 
-> ⭐ 네이티브 설치만 백그라운드 자동 업데이트.
+> ⭐ 네이티브 설치만 백그라운드 자동 업데이트 · brew/winget은 수동: `brew upgrade claude-code` / `winget upgrade Anthropic.ClaudeCode`.
 
 ## 로그인 / 세션
 | 작업 | 명령 |
@@ -53,6 +54,7 @@
 | 변경 즉시 적용 | `/reload-plugins` |
 
 ## 표면별 요구사항
+- **Claude Code:** macOS 13+ / Win10 1809+ · 4GB+ RAM (데스크톱 앱 macOS 11+와 별개)
 - **VS Code 확장:** 1.98+ · 터미널 `claude`는 CLI 별도 설치 필요
 - **JetBrains 플러그인:** ID 27310 (Beta) · CLI 별도 설치
 - **데스크톱 앱:** macOS 유니버설 / Windows x64·ARM64 (Linux ✕) · Windows Code 탭은 Git for Windows 필요

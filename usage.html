@@ -280,7 +280,7 @@
           <div class="uc-head"><h3>Skills 사용 — 반복 작업을 능력으로</h3><span class="lbl official"></span></div>
           <div class="uc-row"><span class="uc-k">언제</span><div class="uc-v">매번 똑같이 시키는 작업(문서 만들기, 표 정리 등)을 <b>버튼 하나</b>처럼 쓰고 싶을 때.</div></div>
           <div class="uc-row"><span class="uc-k">예시</span><div class="uc-v"><b>Settings → Capabilities</b>에서 <code>Code execution &amp; file creation</code> 켜기 → <b>Customize → Skills</b>에서 원하는 스킬 토글. 이후 대화에서 자동 호출되거나 직접 지정.</div></div>
-          <div class="uc-row"><span class="uc-k">함정</span><div class="uc-v"><div class="pitfall"><span>⚠</span><div>코드 실행 토글이 꺼져 있으면 작동 안 함. <b>커스텀 스킬·코드 실행은 유료(Pro+).</b></div></div></div></div>
+          <div class="uc-row"><span class="uc-k">함정</span><div class="uc-v"><div class="pitfall"><span>⚠</span><div>코드 실행 토글이 꺼져 있으면 작동 안 함. <b>코드 실행·스킬은 Free 포함 전 플랜 가능</b>(토글만 켜면 됨, 유료 아님).</div></div></div></div>
         </article>
 
         <!-- Connectors -->
@@ -434,12 +434,45 @@
     </section>
   </div>
 
+  <!-- 직무 사례 -->
+  <section id="cases">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">실전 사례</span>
+        <h2>비개발 직무도 이렇게 씁니다</h2>
+        <p>Anthropic이 공식 블로그로 공개한 실제 사례 — "개발자만의 것"이 아닙니다.</p>
+      </div>
+      <div class="adv-grid">
+        <div class="adv">
+          <div class="ah"><h4>마케팅 — 광고 카피 대량 생성</h4><span class="lbl official"></span></div>
+          <p>Growth 팀이 <b>sub-agent 2개</b>로 수백 개 광고가 든 CSV를 처리 → 부진 광고를 찾아 문자수 제한(헤드라인 30·설명 90자) 안에서 새 변형 생성. <b>~2시간 → 15분.</b></p>
+          <a href="https://claude.com/blog/how-anthropic-teams-use-claude-code" target="_blank" rel="noopener">→ how-anthropic-teams-use-claude-code</a>
+        </div>
+        <div class="adv">
+          <div class="ah"><h4>마케팅 — 코딩 무경험자</h4><span class="lbl official"></span></div>
+          <p>"한 줄도 코딩 안 해본" 마케터가 커스텀 <code>/rsa</code> 슬래시 커맨드를 만들어 Google Ads 카피(<b>헤드라인 15 + 설명 4</b>)를 생성하고 업로드용 CSV로 합침.</p>
+          <a href="https://claude.com/blog/how-anthropic-uses-claude-marketing" target="_blank" rel="noopener">→ how-anthropic-uses-claude-marketing</a>
+        </div>
+        <div class="adv">
+          <div class="ah"><h4>법무 — 비개발 팀의 자동화</h4><span class="lbl official"></span></div>
+          <p>변호사 연결 <b>phone tree</b> 프로토타입 · 마케팅 콘텐츠 리뷰를 <b>Slack Skill</b>로(2~3일 → 24시간) · Google Docs·Office365 안에서 <b>계약 레드라인</b>·버전 비교.</p>
+          <a href="https://claude.com/blog/how-anthropic-uses-claude-legal" target="_blank" rel="noopener">→ how-anthropic-uses-claude-legal</a>
+        </div>
+        <div class="adv">
+          <div class="ah"><h4>디자인 — Figma에서 코드까지</h4><span class="lbl official"></span></div>
+          <p>Product Design 팀이 <b>Figma 파일</b>을 Claude Code에 넣고, <b>autonomous loop</b>로 새 기능 코드 작성 → 테스트 실행 → 반복.</p>
+          <a href="https://claude.com/blog/how-anthropic-teams-use-claude-code" target="_blank" rel="noopener">→ how-anthropic-teams-use-claude-code</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- KIT -->
   <section id="kit">
     <div class="wrap">
       <div class="sec-head">
         <span class="kicker">사용편 치트시트</span>
-        <h2>옆에 띄워두는 2장</h2>
+        <h2>옆에 띄워두는 3장</h2>
         <p>작업하다 자꾸 찾게 되는 것만.</p>
       </div>
       <div class="kit-grid">
@@ -459,6 +492,15 @@
           <div class="dl-row">
             <a class="dl" href="./kit/setting-day-usage-modes.md" download>↓ Markdown</a>
             <a class="dl" href="./kit/setting-day-usage-modes.pdf" download>↓ PDF</a>
+          </div>
+        </div>
+        <div class="kit">
+          <div class="ico">FIRST DAY</div>
+          <h3>Claude Code 첫날 5프롬프트</h3>
+          <p>설치 직후 그대로 복붙하는 5개 프롬프트 + <span class="mono" style="font-size:13px">/init</span>. 공식 first-day 가이드 기준.</p>
+          <div class="dl-row">
+            <a class="dl" href="./kit/setting-day-firstday.md" download>↓ Markdown</a>
+            <a class="dl" href="./kit/setting-day-firstday.pdf" download>↓ PDF</a>
           </div>
         </div>
       </div>
