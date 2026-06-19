@@ -155,15 +155,22 @@
   .appendix h2{color:#fff; font-size:clamp(22px,3.4vw,28px); margin:8px 0 6px}
   .appendix > p{color:#C7BCA8; max-width:62ch; margin:0 0 22px; font-size:15px}
   .adv-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
-  .adv{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:20px}
+  /* default: light section card (readable on paper) */
+  .adv{background:var(--card); border:1.5px solid var(--line-strong); border-radius:12px; padding:20px; box-shadow:var(--shadow)}
   .adv .ah{display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap}
-  .adv h4{margin:0; font-size:17px; color:#F3D9C7}
-  .adv .lbl.official{background:rgba(95,106,58,.34); color:#cdd8a4}
-  .adv .lbl.exp{background:rgba(194,86,47,.3); color:#f0bda6}
-  .adv p{margin:0 0 8px; font-size:14px; color:#B6AB97}
-  .adv code{font-family:var(--mono); font-size:12.5px; background:rgba(255,255,255,.09); padding:1px 6px; border-radius:5px; color:#E9E0CF}
-  .adv a{color:#E89B78; text-decoration:none; font-family:var(--mono); font-size:12.5px; font-weight:600}
+  .adv h4{margin:0; font-size:17px; color:var(--ink)}
+  .adv p{margin:0 0 8px; font-size:14px; color:var(--ink-soft)}
+  .adv code{font-family:var(--mono); font-size:12.5px; background:var(--paper-2); padding:1px 6px; border-radius:5px; color:var(--ink)}
+  .adv a{color:var(--clay-deep); text-decoration:none; font-family:var(--mono); font-size:12.5px; font-weight:600}
   .adv a:hover{text-decoration:underline}
+  /* dark variant: only inside the dark appendix box */
+  .appendix .adv{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); box-shadow:none}
+  .appendix .adv h4{color:#F3D9C7}
+  .appendix .adv p{color:#B6AB97}
+  .appendix .adv code{background:rgba(255,255,255,.09); color:#E9E0CF}
+  .appendix .adv a{color:#E89B78}
+  .appendix .adv .lbl.official{background:rgba(95,106,58,.34); color:#cdd8a4}
+  .appendix .adv .lbl.exp{background:rgba(194,86,47,.3); color:#f0bda6}
   @media(max-width:600px){ .adv-grid{grid-template-columns:1fr} }
 
   /* kit */
