@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>확장 추천 — Setting Day</title>
+<meta name="description" content="Claude Code를 처음 켠 개발자를 위한 공식(Anthropic) 확장 큐레이션. skill·MCP·전역지침·플러그인을 최소로 시작해 하나씩. 모든 명령은 공식 문서 확인분만." />
+<!-- Open Graph / link preview -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Setting Day" />
+<meta property="og:title" content="확장 추천 — Setting Day" />
+<meta property="og:description" content="Claude Code 1일차 개발자를 위한 공식 확장 큐레이션. 최소로 시작해 필요할 때 하나씩." />
+<meta property="og:url" content="https://ninetybullets.github.io/setting-day/extensions.html" />
+<meta property="og:image" content="https://ninetybullets.github.io/setting-day/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Setting Day — Claude Code 공식 확장 추천" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="확장 추천 — Setting Day" />
+<meta name="twitter:description" content="Claude Code 1일차 개발자를 위한 공식 확장 큐레이션. 최소로 시작해 하나씩." />
+<meta name="twitter:image" content="https://ninetybullets.github.io/setting-day/og-image.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500;1,9..144,900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#F4EFE3; --paper-2:#EDE6D6; --card:#FBF8F0;
+    --ink:#211C16; --ink-soft:#5E564A; --ink-faint:#8A8170;
+    --clay:#C2562F; --clay-deep:#9E4023; --clay-tint:#F0DDD0;
+    --olive:#5F6A3A; --olive-tint:#E2E5CF;
+    --amber:#B9772A;
+    --line:#DAD1BD; --line-strong:#C9BFA6;
+    --shadow:18px 18px 0 rgba(33,28,22,.06);
+    --r:14px;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --sans:'IBM Plex Sans KR',system-ui,sans-serif;
+    --disp:'Fraunces',Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-weight:400; line-height:1.7;
+    font-size:17px; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:0 26px; position:relative; z-index:2}
+  a{color:inherit}
+  h1,h2,h3{line-height:1.12; margin:0; font-weight:600; letter-spacing:-.01em}
+  .mono{font-family:var(--mono)}
+  .kicker{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--clay-deep); font-weight:600}
+
+  /* ---- nav ---- */
+  header.nav{position:sticky; top:0; z-index:50; background:rgba(244,239,227,.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  .nav-in{display:flex; align-items:center; justify-content:space-between; height:62px}
+  .brand{font-family:var(--disp); font-weight:900; font-size:21px; letter-spacing:-.02em; display:flex; align-items:center; gap:9px; text-decoration:none}
+  .brand .dot{width:11px; height:11px; border-radius:50%; background:var(--clay); box-shadow:0 0 0 4px var(--clay-tint)}
+  .nav-links{display:flex; gap:26px; align-items:center; font-size:14.5px; font-weight:500}
+  .nav-links a{text-decoration:none; color:var(--ink-soft); transition:color .2s}
+  .nav-links a:hover{color:var(--clay-deep)}
+  .nav-links a.here{color:var(--clay-deep); font-weight:600}
+  .nav-badge{font-family:var(--mono); font-size:11px; color:var(--ink-faint); border:1px solid var(--line-strong); border-radius:100px; padding:4px 10px}
+  @media(max-width:760px){ .nav-links a:not(.nav-badge){display:none} }
+
+  /* ---- hero ---- */
+  .hero{padding:78px 0 40px; position:relative}
+  .hero-grid{display:grid; grid-template-columns:1.35fr .85fr; gap:40px; align-items:center}
+  .hero h1{font-size:clamp(38px,7vw,76px); font-weight:700; letter-spacing:-.03em}
+  .hero h1 .sig{font-family:var(--disp); font-style:italic; font-weight:500; color:var(--clay)}
+  .hero .lead{font-size:clamp(17px,2.1vw,20px); color:var(--ink-soft); max-width:48ch; margin:24px 0 0}
+  .hero .lead b{color:var(--ink); font-weight:600}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:34px}
+  .btn{display:inline-flex; align-items:center; gap:9px; font-family:var(--sans); font-weight:600; font-size:15.5px; padding:14px 24px; border-radius:100px; text-decoration:none; border:1.5px solid transparent; cursor:pointer; transition:transform .15s, box-shadow .15s, background .2s}
+  .btn-primary{background:var(--clay-deep); color:#FBF6EE; box-shadow:0 4px 0 #6f2c16}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 6px 0 #6f2c16}
+  .btn-primary:active{transform:translateY(2px); box-shadow:0 1px 0 #6f2c16}
+  .btn-ghost{background:transparent; border-color:var(--line-strong); color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--clay); color:var(--clay-deep)}
+
+  /* stack motif (4 categories) */
+  .stack-art{position:relative; height:300px; border-left:2px dashed var(--line-strong); margin-left:24px}
+  .rung{position:absolute; left:-9px; display:flex; align-items:center; gap:14px; animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+  .rung .node{width:18px; height:18px; border-radius:50%; background:var(--paper); border:2px solid var(--clay); flex:none}
+  .rung .lbl{font-family:var(--mono); font-size:13px; color:var(--ink-soft); white-space:nowrap; background:var(--card); border:1px solid var(--line); padding:5px 11px; border-radius:8px; box-shadow:3px 3px 0 rgba(33,28,22,.05)}
+  .rung:nth-child(1){top:2%; animation-delay:.15s} .rung:nth-child(2){top:30%; animation-delay:.30s}
+  .rung:nth-child(3){top:58%; animation-delay:.45s} .rung:nth-child(4){top:86%; animation-delay:.60s}
+  @keyframes rise{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none}}
+  @media(max-width:880px){ .hero-grid{grid-template-columns:1fr} .stack-art{display:none} }
+
+  /* section frame */
+  section{padding:54px 0; position:relative}
+  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:26px; flex-wrap:wrap}
+  .sec-head h2{font-size:clamp(26px,4vw,38px)}
+  .sec-head p{color:var(--ink-soft); margin:0; font-size:16px}
+
+  /* ---- principles ---- */
+  .principles{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:8px}
+  .principles div{background:var(--card); border:1px solid var(--line); border-radius:11px; padding:17px 19px}
+  .principles h4{margin:0 0 5px; font-size:15.5px}
+  .principles p{margin:0; font-size:13.5px; color:var(--ink-soft)}
+  .principles .n{font-family:var(--disp); font-weight:900; color:var(--clay); font-size:19px; margin-right:7px}
+  .lede-note{font-size:13.5px; color:var(--ink-faint); font-family:var(--mono); margin:20px 0 0; padding-top:14px; border-top:1px solid var(--line)}
+
+  /* ---- extension cards ---- */
+  .cat-note{font-size:14px; color:var(--ink-soft); margin:-8px 0 22px}
+  .ext{background:var(--card); border:1.5px solid var(--line-strong); border-radius:var(--r); padding:22px 24px; box-shadow:var(--shadow); margin-bottom:16px}
+  .ext-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:7px}
+  .ext-head h3{font-size:18.5px; font-family:var(--mono); letter-spacing:-.01em}
+  .bdg{font-family:var(--mono); font-size:10.5px; font-weight:600; padding:3px 9px; border-radius:100px; letter-spacing:.03em}
+  .bdg.ok{background:var(--olive-tint); color:var(--olive)}
+  .bdg.warn{background:#FBF1E2; color:var(--amber)}
+  .ext .what{color:var(--ink); font-size:15px; margin:0 0 5px}
+  .ext .why{font-size:14px; color:var(--ink-soft); margin:0 0 8px}
+  .ext .why b{color:var(--clay-deep); font-weight:600}
+  .mlabel{font-family:var(--mono); font-size:11px; color:var(--ink-faint); font-weight:600; letter-spacing:.05em; text-transform:uppercase; margin:13px 0 3px}
+
+  .cmd{display:flex; align-items:center; gap:10px; background:#241F18; color:#F0E9DA; font-family:var(--mono); font-size:13.5px; border-radius:9px; padding:10px 12px; margin:4px 0; overflow-x:auto}
+  .cmd code{white-space:pre; color:#F0E9DA}
+  .cmd .prompt{color:var(--clay); user-select:none}
+  .cmd .copy{margin-left:auto; flex:none; background:rgba(255,255,255,.08); color:#E9E0CF; border:0; font-family:var(--mono); font-size:11px; padding:5px 9px; border-radius:6px; cursor:pointer; transition:background .2s}
+  .cmd .copy:hover{background:rgba(255,255,255,.18)}
+  .cmd .copy.done{background:var(--olive); color:#fff}
+
+  .pitfall{display:flex; gap:11px; background:#FBF1E2; border:1px solid #EAD3B0; border-left:3px solid var(--amber); border-radius:9px; padding:13px 15px; font-size:14px; color:#5b4a30; margin-top:12px}
+  .pitfall b{color:var(--amber)}
+  .pitfall.stop{background:#F7E6DD; border-color:#E3B7A2; border-left-color:var(--clay-deep)}
+  .pitfall.stop b{color:var(--clay-deep)}
+
+  /* guide block (전역지침) */
+  .guide{background:var(--card); border:1.5px solid var(--line-strong); border-radius:var(--r); padding:24px 26px; box-shadow:var(--shadow)}
+  .guide h4{font-size:15px; margin:18px 0 7px; font-family:var(--mono); color:var(--clay-deep)}
+  .guide h4:first-child{margin-top:0}
+  .guide p{margin:0 0 6px; font-size:15px; color:var(--ink-soft)}
+  .guide ul{margin:0; padding-left:20px; font-size:14.5px; color:var(--ink-soft)}
+  .guide ul li{margin:3px 0}
+  .guide code{font-family:var(--mono); font-size:13px; background:var(--paper-2); padding:1px 6px; border-radius:5px; color:var(--ink)}
+
+  /* ---- safety ---- */
+  .safety{background:var(--ink); color:#EDE5D5; border-radius:18px; padding:40px 36px; position:relative; overflow:hidden}
+  .safety h2{color:#fff; font-size:clamp(24px,3.6vw,32px)}
+  .safety .kicker{color:#E89B78}
+  .safety p{color:#C7BCA8; max-width:62ch}
+  .safe-checks{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:24px}
+  .safe-checks div{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:11px; padding:18px}
+  .safe-checks h4{margin:0 0 6px; font-size:15.5px; color:#F3D9C7}
+  .safe-checks p{margin:0; font-size:13.5px; color:#B6AB97}
+  .safe-foot{margin-top:22px; font-size:13.5px; color:#B6AB97; font-family:var(--mono)}
+  @media(max-width:640px){ .safe-checks{grid-template-columns:1fr} }
+
+  /* ---- closing ---- */
+  .closing{text-align:center; padding:72px 0 52px}
+  .closing h2{font-size:clamp(28px,5vw,50px); font-weight:700; letter-spacing:-.03em}
+  .closing h2 .sig{font-family:var(--disp); font-style:italic; font-weight:500; color:var(--clay)}
+  .closing p{color:var(--ink-soft); margin:18px 0 30px}
+
+  footer{border-top:1px solid var(--line); padding:34px 0; font-size:13.5px; color:var(--ink-faint)}
+  .foot-in{display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; align-items:center}
+  .foot-in .mono{font-size:12px}
+  footer a{color:var(--clay-deep); text-decoration:none}
+
+  @media(max-width:640px){ .ext-head h3{font-size:17px} }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important; scroll-behavior:auto !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="./index.html"><span class="dot"></span>Setting&nbsp;Day</a>
+    <nav class="nav-links">
+      <a href="./index.html">← 설치편</a>
+      <a href="./usage.html">사용편</a>
+      <a href="./advanced.html">심화편</a>
+      <a href="./extensions.html" class="here">확장 추천</a>
+      <span class="nav-badge mono">최신 · 2026-06-23</span>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="kicker">개발자 트랙 · Claude Code · 1일차</span>
+        <h1>무엇부터<br>깔까?<br><span class="sig">확장 추천</span></h1>
+        <p class="lead">Claude Code를 처음 켠 개발자를 위한 <b>공식(Anthropic) 확장</b> 큐레이션. 원칙은 하나 — <b>많이 까는 게 아니라, 최소로 시작해 필요할 때 하나씩.</b> 모든 설치 명령은 공식 문서에서 확인된 것만 실었습니다.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#principle">먼저 원칙부터 →</a>
+          <a class="btn btn-ghost" href="#skill">범주 바로 보기</a>
+        </div>
+      </div>
+      <div class="stack-art" aria-hidden="true">
+        <div class="rung"><span class="node"></span><span class="lbl">① Skill</span></div>
+        <div class="rung"><span class="node"></span><span class="lbl">② MCP 서버</span></div>
+        <div class="rung"><span class="node"></span><span class="lbl">③ 전역지침</span></div>
+        <div class="rung"><span class="node"></span><span class="lbl">④ 플러그인</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLE -->
+  <section id="principle">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">먼저 읽기</span>
+        <h2>많이 까는 게 아니라, 고르는 것</h2>
+        <p>입문자가 가장 많이 하는 실수 = 처음부터 잔뜩 설치.</p>
+      </div>
+      <div class="principles">
+        <div><h4><span class="n">1</span>빈 슬레이트로 시작</h4><p>기본 에이전트를 먼저 써보고, 실제로 모자란 것만 추가하세요.</p></div>
+        <div><h4><span class="n">2</span>하나씩 추가</h4><p>한 번에 다 깔지 말고, 직접 고른 것을 하나씩. 무엇이 무엇을 바꾸는지 보이게.</p></div>
+        <div><h4><span class="n">3</span>전역지침은 가볍게</h4><p><span class="mono" style="font-size:13px">~/.claude/CLAUDE.md</span>는 짧게(&lt;200줄). 길수록 따르는 정확도가 떨어집니다.</p></div>
+        <div><h4><span class="n">4</span>규칙은 hook으로</h4><p>"꼭 지켜야 하는 것"은 지침이 아니라 hook으로. 지침은 강제가 아닙니다.</p></div>
+        <div><h4><span class="n">5</span>출처는 audit · pin</h4><p>공식만 쓰고 버전을 고정. 확장은 <b>당신 권한으로 코드를 실행</b>합니다.</p></div>
+      </div>
+      <p class="lede-note">※ 아래는 <b>공식(Anthropic)</b>만 추린 후보입니다. 인기 커뮤니티 확장은 의도적으로 제외 — 입문자 안전 우선. 수치·이름·명령은 조사일 2026-06-23 기준, 게시 전 공식 문서 재확인 권장.</p>
+    </div>
+  </section>
+
+  <!-- 1. SKILL -->
+  <section id="skill">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">범주 ①</span>
+        <h2>Skill</h2>
+        <p>특화 작업용 폴더(<span class="mono" style="font-size:14px">SKILL.md</span>). 한 번 켜면 알아서 불러 씁니다.</p>
+      </div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>document-skills</h3><span class="bdg ok">공식 · 확정</span></div>
+        <p class="what">문서 생성·편집 스킬 4종 묶음 — xlsx · docx · pptx · pdf.</p>
+        <p class="why"><b>왜 초반에:</b> 입문자 첫 실전 작업이 대개 문서·표 생성. 범용성+즉시효용이 가장 큰 한 묶음.</p>
+        <div class="mlabel">① 주소 — 마켓 등록</div>
+        <div class="cmd"><span class="prompt">$</span><code>/plugin marketplace add anthropics/skills</code><button class="copy">복사</button></div>
+        <div class="mlabel">② agentic / 직접 — 설치</div>
+        <div class="cmd"><span class="prompt">$</span><code>/plugin install document-skills@anthropic-agent-skills</code><button class="copy">복사</button></div>
+        <div class="pitfall"><span>⚠</span><div><b>주의</b> — 식별자 혼동: <span class="mono">marketplace add</span> 인자는 <span class="mono">anthropics/skills</span>(owner/repo)지만, <span class="mono">install</span> 식별자는 내부명 <span class="mono">anthropic-agent-skills</span>입니다. 또 이 문서 스킬은 'source-available(오픈소스 아님)' 라이선스 · 'demonstration/educational' 면책이 붙어 있습니다.</div></div>
+      </div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>skill-creator</h3><span class="bdg ok">공식 · 확정</span></div>
+        <p class="what">새 스킬을 만들고 평가하도록 단계별로 안내하는 메타 스킬.</p>
+        <p class="why"><b>왜 초반에:</b> 남의 스킬을 받기보다 <b>자기 스킬을 직접 만드는</b> 입문 경로(원칙 2와 연결).</p>
+        <div class="mlabel">agentic / 직접 — 설치</div>
+        <div class="cmd"><span class="prompt">$</span><code>/plugin install skill-creator@claude-plugins-official</code><button class="copy">복사</button></div>
+      </div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>개인 스킬 직접배치</h3><span class="bdg ok">공식 · 확정</span><span class="bdg" style="background:var(--paper-2);color:var(--ink-faint)">방법</span></div>
+        <p class="what">레지스트리 없이, <span class="mono" style="font-size:13px">SKILL.md</span> 한 폴더면 끝. 디렉터리 이름이 곧 <span class="mono" style="font-size:13px">/명령어</span>가 됩니다.</p>
+        <p class="why"><b>왜 초반에:</b> npx/npm 불필요 — 가장 마찰이 적은 방식. 모든 프로젝트에 적용.</p>
+        <div class="mlabel">직접 — 폴더 만들고 SKILL.md 작성</div>
+        <div class="cmd"><span class="prompt">$</span><code>mkdir -p ~/.claude/skills/summarize-changes</code><button class="copy">복사</button></div>
+        <div class="pitfall"><span>ℹ</span><div><b>참고</b> — <span class="mono">SKILL.md</span>는 YAML frontmatter + 본문이면 충분하고, 필드는 전부 선택이되 <span class="mono">description</span>만 권장(Claude가 언제 쓸지 판단). 개인 스킬은 <span class="mono">~/.claude/skills/&lt;name&gt;/SKILL.md</span>.</div></div>
+      </div>
+
+      <p class="cat-note" style="margin-top:6px">더: <span class="mono">example-skills</span>(예시 모음)·<span class="mono">claude-api</span>도 같은 마켓에서 — <span class="mono">/plugin install example-skills@anthropic-agent-skills</span>. (npx/npm은 skill 범주엔 해당 없음.)</p>
+    </div>
+  </section>
+
+  <!-- 2. MCP -->
+  <section id="mcp">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">범주 ②</span>
+        <h2>MCP 서버</h2>
+        <p>외부 도구·데이터를 Claude Code에 연결. 공식 reference 서버 7종 중 입문자용.</p>
+      </div>
+
+      <div class="pitfall stop" style="margin:0 0 22px"><span>🔴</span><div><b>먼저, 아카이브 주의</b> — 과거 reference 서버 13개(GitHub · Slack · PostgreSQL · Google Drive · Puppeteer 등)는 <b>아카이브됨</b>(<span class="mono">servers-archived</span>, 유지보수·보안패치 중단). 옛 글에서 보여도 <b>추천/사용 금지</b>. 현행 reference는 아래 7종뿐입니다.</div></div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>Filesystem</h3><span class="bdg ok">공식 · 확정</span></div>
+        <p class="what">허용한 경로의 파일을 읽고 씁니다.</p>
+        <p class="why"><b>왜 초반에:</b> 코딩 작업의 즉시효용 핵심.</p>
+        <div class="mlabel">npx — 경로 인자 필수</div>
+        <div class="cmd"><span class="prompt">$</span><code>claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem /path/to/allowed/files</code><button class="copy">복사</button></div>
+        <div class="pitfall"><span>⚠</span><div><b>주의</b> — 허용 경로를 반드시 지정(인자 필수). 홈 전체처럼 넓게 열지 마세요.</div></div>
+      </div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>Git</h3><span class="bdg ok">공식 · 확정</span></div>
+        <p class="what">git 저장소를 읽고 조작.</p>
+        <p class="why"><b>왜 초반에:</b> 버전관리는 거의 모든 개발자에게 범용.</p>
+        <div class="mlabel">uvx (Python) — 또는 pip install mcp-server-git</div>
+        <div class="cmd"><span class="prompt">$</span><code>claude mcp add git -- uvx mcp-server-git</code><button class="copy">복사</button></div>
+      </div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>Memory</h3><span class="bdg ok">공식 · 확정</span></div>
+        <p class="what">세션 간 지식을 영속(knowledge graph)으로 보관.</p>
+        <p class="why"><b>왜 초반에:</b> 도메인·선호를 기억시키는 범용 도구.</p>
+        <div class="mlabel">npx</div>
+        <div class="cmd"><span class="prompt">$</span><code>claude mcp add memory -- npx -y @modelcontextprotocol/server-memory</code><button class="copy">복사</button></div>
+      </div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>Fetch · Sequential Thinking · Time</h3><span class="bdg warn">현행 · 명령 미확인</span></div>
+        <p class="what">Fetch(URL→마크다운) · Sequential Thinking(단계적 추론) · Time(시간대 변환) — 모두 현행 7종에 포함.</p>
+        <div class="pitfall"><span>⚠</span><div><b>정직하게</b> — 이 3종은 현행 reference 서버가 맞지만, <b>정확한 설치 명령이 공식 메인 README에 없어</b> 여기 추측해 적지 않습니다. 설치 전 공식 레포 <a href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener" style="color:var(--clay-deep)">modelcontextprotocol/servers</a>의 각 서버 폴더 README에서 명령을 확인하세요.</div></div>
+      </div>
+
+      <p class="cat-note" style="margin-top:6px"><b>원격(주소) MCP</b>는 <span class="mono">claude mcp add --transport http &lt;name&gt; &lt;url&gt;</span> (공식 지원). 단 <span class="mono">claude.ai/directory</span>의 커넥터는 대부분 <b>파트너 제작</b>(Anthropic은 큐레이션만) — '공식 Anthropic 서버'와 구분하세요.</p>
+    </div>
+  </section>
+
+  <!-- 3. 전역지침 -->
+  <section id="claudemd">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">범주 ③</span>
+        <h2>전역지침 (CLAUDE.md)</h2>
+        <p>설치형이 아니라 <b>'작성형'</b> — 받는 게 아니라 쓰는 것.</p>
+      </div>
+      <div class="guide">
+        <h4>어디에</h4>
+        <p><span class="mono"><code>~/.claude/CLAUDE.md</code></span> = User 범위(전역, 모든 프로젝트). 로드 순서(넓음→좁음): Managed(조직) → <b>User(전역)</b> → Project(<code>./CLAUDE.md</code>) → Local(<code>./CLAUDE.local.md</code>).</p>
+        <h4>무엇을 넣나 (전역)</h4>
+        <ul>
+          <li>개인 코딩 선호, 개인 툴링 단축, "항상 X" 규칙</li>
+          <li>프로젝트 고유 표준은 전역이 아니라 <code>./CLAUDE.md</code>에</li>
+        </ul>
+        <h4>잘 쓰는 법 (공식 권장)</h4>
+        <ul>
+          <li>파일당 <b>200줄 미만</b> 목표 — 길수록 따르는 정확도↓</li>
+          <li>마크다운 헤더·불릿으로 구조화</li>
+          <li>구체적으로: "Use 2-space indentation" &gt; "format properly"</li>
+          <li>모순되는 규칙 제거(충돌 시 임의로 하나만 따름)</li>
+        </ul>
+        <h4>적용 방법</h4>
+        <div class="mlabel" style="margin-top:6px">직접 — 파일 편집</div>
+        <div class="cmd"><span class="prompt">$</span><code>$EDITOR ~/.claude/CLAUDE.md</code><button class="copy">복사</button></div>
+        <div class="mlabel">agentic — Claude에게 시키기</div>
+        <div class="cmd"><span class="prompt">»</span><code>이 내용을 내 전역 CLAUDE.md에 추가해줘</code><button class="copy">복사</button></div>
+        <div class="mlabel">import — 다른 파일 끌어오기 (최대 4 hops)</div>
+        <div class="cmd"><span class="prompt">#</span><code>@~/.claude/my-conventions.md</code><button class="copy">복사</button></div>
+        <div class="pitfall"><span>⚠</span><div><b>주의</b> — <span class="mono">/init</span> 자동생성에 의존하지 말고 핵심만 남기세요. 지침은 강제가 아니라 '맥락' — 반드시 지켜야 할 건 hook으로(원칙 4). 세션 중 빠르게 기억시키려면 <span class="mono">#</span> 단축 또는 <span class="mono">/memory</span>.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 플러그인 -->
+  <section id="plugin">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">범주 ④</span>
+        <h2>플러그인 / 마켓플레이스</h2>
+        <p>여러 확장을 묶은 패키지. 공식 마켓 <span class="mono" style="font-size:14px">claude-plugins-official</span>은 Claude Code 시작 시 자동 등록됩니다.</p>
+      </div>
+
+      <div class="pitfall stop" style="margin:0 0 22px"><span>🔴</span><div><b>핵심 구분</b> — 이 공식 마켓엔 200개 넘는 플러그인이 있지만 <b>대부분 파트너(third-party) 제작</b>입니다. "Anthropic 공식 제작"은 <b>author가 Anthropic</b>인 것만 — 아래는 그중 입문자 범용 후보입니다. 모두 <span class="mono">/plugin install &lt;name&gt;@claude-plugins-official</span>.</div></div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>claude-code-setup</h3><span class="bdg ok">공식 · 확정</span></div>
+        <p class="what">코드베이스를 분석해 맞춤 hooks · skills · MCP · subagent를 추천.</p>
+        <p class="why"><b>왜 초반에:</b> "무엇을 깔지" 자체를 안내하는 온보딩 도구 — 1일차에 가장 먼저.</p>
+        <div class="cmd"><span class="prompt">$</span><code>/plugin install claude-code-setup@claude-plugins-official</code><button class="copy">복사</button></div>
+      </div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>commit-commands</h3><span class="bdg ok">공식 · 확정</span></div>
+        <p class="what">git commit · push · PR 생성 워크플로 명령.</p>
+        <p class="why"><b>왜 초반에:</b> 거의 모든 개발자가 1일차부터 쓰는 범용 흐름.</p>
+        <div class="cmd"><span class="prompt">$</span><code>/plugin install commit-commands@claude-plugins-official</code><button class="copy">복사</button></div>
+      </div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>code-review</h3><span class="bdg ok">공식 · 확정</span></div>
+        <p class="what">여러 전문 에이전트가 신뢰도 스코어링으로 PR을 자동 리뷰.</p>
+        <p class="why"><b>왜 초반에:</b> 변경을 합치기 전 결함을 거르는 즉시효용.</p>
+        <div class="cmd"><span class="prompt">$</span><code>/plugin install code-review@claude-plugins-official</code><button class="copy">복사</button></div>
+      </div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>claude-md-management</h3><span class="bdg ok">공식 · 확정</span></div>
+        <p class="what">CLAUDE.md 품질 감사 · 세션 학습 반영 · 프로젝트 메모리 최신화.</p>
+        <p class="why"><b>왜 초반에:</b> 범주 ③(전역지침)을 가볍게 유지하는 짝꿍.</p>
+        <div class="cmd"><span class="prompt">$</span><code>/plugin install claude-md-management@claude-plugins-official</code><button class="copy">복사</button></div>
+      </div>
+
+      <div class="ext">
+        <div class="ext-head"><h3>frontend-design</h3><span class="bdg ok">공식 · 확정</span></div>
+        <p class="what">개성 있고 완성도 높은 프런트엔드 UI를 생성.</p>
+        <p class="why"><b>왜 초반에:</b> 웹 작업에 폭넓게 쓰이는 범용 도구.</p>
+        <div class="cmd"><span class="prompt">$</span><code>/plugin install frontend-design@claude-plugins-official</code><button class="copy">복사</button></div>
+      </div>
+
+      <p class="cat-note" style="margin-top:6px">기타 Anthropic 제작 범용 후보: <span class="mono">feature-dev · pr-review-toolkit · plugin-dev · hookify · playground</span>, 언어별 LSP(<span class="mono">pyright-lsp</span> 등). 자동등록이 안 보이면: <span class="mono">/plugin marketplace add anthropics/claude-plugins-official</span>. (카탈로그는 조사일 기준 일부 — 전체는 공식 문서 확인.)</p>
+    </div>
+  </section>
+
+  <!-- SAFETY -->
+  <section>
+    <div class="wrap">
+      <div class="safety">
+        <span class="kicker">설치 전 1분</span>
+        <h2 style="margin-top:10px">확장 = 코드 실행. 신뢰부터.</h2>
+        <p>Skill · MCP 서버 · Plugin은 당신의 권한으로 코드를 실행하고 파일·도구에 접근합니다. 공식만 골랐어도, 설치 전 3가지는 확인하세요.</p>
+        <div class="safe-checks">
+          <div><h4>① 출처 · 버전</h4><p>공식(anthropics/*)인가? 버전을 고정(pin)했나? 커뮤니티 소스는 따로 audit.</p></div>
+          <div><h4>② 무엇을 설치하나</h4><p>설치 전 "Will install"(명령·MCP·hook) 목록을 읽었나? 모르는 건 설치하지 않기.</p></div>
+          <div><h4>③ 외부 콘텐츠</h4><p>민감 데이터 + 미신뢰 콘텐츠 + 외부 유출경로가 한 세션에 겹치면 위험(lethal trifecta). 분리하기.</p></div>
+        </div>
+        <p class="safe-foot">※ 한 커뮤니티 스킬 벤치마크에선 일부 스킬이 오히려 에이전트를 <b style="color:#E89B78">악화</b>시켰습니다 — "고르지 않은 건 깔지 않는다"가 가장 안전한 기본값.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="closing">
+    <div class="wrap">
+      <span class="kicker">시작은 가볍게</span>
+      <h2>오늘은 <span class="sig">하나만</span>.</h2>
+      <p>네 범주를 다 깔 필요 없습니다. 지금 필요한 하나부터 — 나머지는 막힐 때 추가하세요.</p>
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn btn-primary" href="#skill">범주 다시 보기 ↑</a>
+        <a class="btn btn-ghost" href="./advanced.html">심화편 · 오케스트레이션 →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>Setting&nbsp;Day · AI 입문 셋업 캠페인</div>
+    <div class="mono">출처: Anthropic 공식 문서·레포 · 조사일 2026-06-23 · 수치·명령은 변동 가능, 설치 전 재확인</div>
+  </div>
+</footer>
+
+<script>
+  // copy-to-clipboard
+  document.querySelectorAll('.cmd .copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var code = btn.parentElement.querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(function(){
+        var t = btn.textContent; btn.textContent='복사됨 ✓'; btn.classList.add('done');
+        setTimeout(function(){ btn.textContent=t; btn.classList.remove('done'); }, 1400);
+      });
+    });
+  });
+</script>
+</body>
+</html>
