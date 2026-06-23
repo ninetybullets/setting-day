@@ -22,20 +22,24 @@
 <meta name="twitter:image" content="https://ninetybullets.github.io/setting-day/og-image.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500;1,9..144,900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendard-variable.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --paper:#F4EFE3; --paper-2:#EDE6D6; --card:#FBF8F0;
-    --ink:#211C16; --ink-soft:#5E564A; --ink-faint:#8A8170;
-    --clay:#C2562F; --clay-deep:#9E4023; --clay-tint:#F0DDD0;
-    --olive:#5F6A3A; --olive-tint:#E2E5CF;
-    --amber:#B9772A;
-    --line:#DAD1BD; --line-strong:#C9BFA6;
-    --shadow:18px 18px 0 rgba(33,28,22,.06);
-    --r:14px;
+    /* Apollo palette (deep-teal + mint on white) */
+    --teal:#0E6B4F; --teal-bright:#1A9E73; --teal-deep:#08402F; --teal-deep2:#072E22;
+    --mint:#D9F0E6; --mint-grad:#EAF7F1; --mint-bright:#7CE0B6;
+    --paper:#FFFFFF; --paper-2:#EAF7F1; --card:#FFFFFF;
+    --ink:#16201C; --ink-soft:#5C6B64; --ink-faint:#8A968F;
+    --clay:#0E6B4F; --clay-deep:#08402F; --clay-tint:#D9F0E6;
+    --olive:#1A9E73; --olive-tint:#EAF7F1; --amber:#1A9E73;
+    --line:#D7E3DD; --line-strong:#C2D2CB;
+    --shadow:0 14px 34px rgba(14,107,79,.10);
+    --r:22px;
+    --s1:8px; --s2:13px; --s3:21px; --s4:34px; --s5:55px; --s6:89px;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
-    --sans:'IBM Plex Sans KR',system-ui,sans-serif;
-    --disp:'Fraunces',Georgia,serif;
+    --sans:'Pretendard Variable',Pretendard,system-ui,'Apple SD Gothic Neo',sans-serif;
+    --disp:'Pretendard Variable',Pretendard,system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -45,124 +49,122 @@
     font-size:17px; -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  body::before{
-    content:""; position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.5;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
-    mix-blend-mode:multiply;
-  }
   .wrap{max-width:1120px; margin:0 auto; padding:0 26px; position:relative; z-index:2}
   a{color:inherit}
-  h1,h2,h3{line-height:1.12; margin:0; font-weight:600; letter-spacing:-.01em}
+  h1,h2,h3{line-height:1.16; margin:0; font-weight:700; letter-spacing:-.01em}
   .mono{font-family:var(--mono)}
-  .kicker{font-family:var(--mono); font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--clay-deep); font-weight:600}
+  .kicker{display:inline-flex; align-items:center; gap:10px; font-family:var(--sans); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); font-weight:800}
+  .kicker::before{content:""; width:26px; height:4px; border-radius:3px; background:var(--teal); flex:none}
+  .hl{background:linear-gradient(transparent 56%, var(--mint) 56%); color:var(--teal); padding:0 .05em; border-radius:2px}
+  .sig{font-family:var(--disp); font-style:normal; font-weight:800; color:var(--teal); letter-spacing:-.01em}
 
   /* ---- nav ---- */
-  header.nav{position:sticky; top:0; z-index:50; background:rgba(244,239,227,.82); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
-  .nav-in{display:flex; align-items:center; justify-content:space-between; height:62px}
-  .brand{font-family:var(--disp); font-weight:900; font-size:21px; letter-spacing:-.02em; display:flex; align-items:center; gap:9px; text-decoration:none}
-  .brand .dot{width:11px; height:11px; border-radius:50%; background:var(--clay); box-shadow:0 0 0 4px var(--clay-tint)}
-  .nav-links{display:flex; gap:26px; align-items:center; font-size:14.5px; font-weight:500}
+  header.nav{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  .nav-in{display:flex; align-items:center; justify-content:space-between; height:64px}
+  .brand{font-family:var(--disp); font-weight:800; font-size:21px; letter-spacing:.01em; display:flex; align-items:center; gap:9px; color:var(--teal); text-decoration:none}
+  .brand .dot{width:11px; height:11px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 4px var(--mint)}
+  .nav-links{display:flex; gap:24px; align-items:center; font-size:14.5px; font-weight:600}
   .nav-links a{text-decoration:none; color:var(--ink-soft); transition:color .2s}
-  .nav-links a:hover{color:var(--clay-deep)}
-  .nav-links a.here{color:var(--clay-deep); font-weight:600}
+  .nav-links a:hover{color:var(--teal)}
+  .nav-links a.here{color:var(--teal); font-weight:700}
   .nav-badge{font-family:var(--mono); font-size:11px; color:var(--ink-faint); border:1px solid var(--line-strong); border-radius:100px; padding:4px 10px}
   @media(max-width:760px){ .nav-links a:not(.nav-badge){display:none} }
 
   /* ---- hero ---- */
-  .hero{padding:78px 0 40px; position:relative}
-  .hero-grid{display:grid; grid-template-columns:1.35fr .85fr; gap:40px; align-items:center}
-  .hero h1{font-size:clamp(38px,7vw,76px); font-weight:700; letter-spacing:-.03em}
-  .hero h1 .sig{font-family:var(--disp); font-style:italic; font-weight:500; color:var(--clay)}
-  .hero .lead{font-size:clamp(17px,2.1vw,20px); color:var(--ink-soft); max-width:48ch; margin:24px 0 0}
-  .hero .lead b{color:var(--ink); font-weight:600}
-  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:34px}
-  .btn{display:inline-flex; align-items:center; gap:9px; font-family:var(--sans); font-weight:600; font-size:15.5px; padding:14px 24px; border-radius:100px; text-decoration:none; border:1.5px solid transparent; cursor:pointer; transition:transform .15s, box-shadow .15s, background .2s}
-  .btn-primary{background:var(--clay-deep); color:#FBF6EE; box-shadow:0 4px 0 #6f2c16}
-  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 6px 0 #6f2c16}
-  .btn-primary:active{transform:translateY(2px); box-shadow:0 1px 0 #6f2c16}
+  .hero{padding:84px 0 44px; position:relative}
+  .hero-grid{display:grid; grid-template-columns:1.618fr 1fr; gap:var(--s5); align-items:center}
+  .hero h1{font-size:clamp(40px,7.2vw,82px); font-weight:800; letter-spacing:-.035em; line-height:1.12}
+  .hero .lead{font-size:clamp(17px,2.1vw,21px); color:var(--ink-soft); max-width:48ch; margin:var(--s4) 0 0; font-weight:500; line-height:1.5}
+  .hero .lead b{color:var(--ink); font-weight:700}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:var(--s4)}
+  .btn{display:inline-flex; align-items:center; gap:9px; font-family:var(--sans); font-weight:700; font-size:15.5px; padding:14px 26px; border-radius:100px; text-decoration:none; border:1.5px solid transparent; cursor:pointer; transition:transform .15s, box-shadow .15s, background .2s}
+  .btn-primary{background:var(--teal); color:#fff; box-shadow:0 6px 18px rgba(14,107,79,.28)}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(14,107,79,.34); background:#0c5e45}
+  .btn-primary:active{transform:translateY(0)}
   .btn-ghost{background:transparent; border-color:var(--line-strong); color:var(--ink)}
-  .btn-ghost:hover{border-color:var(--clay); color:var(--clay-deep)}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal); background:var(--mint-grad)}
 
   /* stack motif (4 categories) */
   .stack-art{position:relative; height:300px; border-left:2px dashed var(--line-strong); margin-left:24px}
   .rung{position:absolute; left:-9px; display:flex; align-items:center; gap:14px; animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
-  .rung .node{width:18px; height:18px; border-radius:50%; background:var(--paper); border:2px solid var(--clay); flex:none}
-  .rung .lbl{font-family:var(--mono); font-size:13px; color:var(--ink-soft); white-space:nowrap; background:var(--card); border:1px solid var(--line); padding:5px 11px; border-radius:8px; box-shadow:3px 3px 0 rgba(33,28,22,.05)}
+  .rung .node{width:18px; height:18px; border-radius:50%; background:var(--paper); border:2px solid var(--teal); flex:none}
+  .rung .lbl{font-family:var(--mono); font-size:13px; color:var(--ink-soft); white-space:nowrap; background:var(--card); border:1px solid var(--line); padding:5px 11px; border-radius:10px; box-shadow:var(--shadow)}
   .rung:nth-child(1){top:2%; animation-delay:.15s} .rung:nth-child(2){top:30%; animation-delay:.30s}
   .rung:nth-child(3){top:58%; animation-delay:.45s} .rung:nth-child(4){top:86%; animation-delay:.60s}
   @keyframes rise{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none}}
   @media(max-width:880px){ .hero-grid{grid-template-columns:1fr} .stack-art{display:none} }
 
   /* section frame */
-  section{padding:54px 0; position:relative}
-  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:26px; flex-wrap:wrap}
-  .sec-head h2{font-size:clamp(26px,4vw,38px)}
-  .sec-head p{color:var(--ink-soft); margin:0; font-size:16px}
+  section{padding:var(--s5) 0; position:relative}
+  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:var(--s4); flex-wrap:wrap}
+  .sec-head h2{font-size:clamp(27px,4vw,40px); font-weight:800; letter-spacing:-.02em}
+  .sec-head p{color:var(--ink-soft); margin:0; font-size:16px; font-weight:500}
 
   /* ---- principles ---- */
   .principles{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:8px}
-  .principles div{background:var(--card); border:1px solid var(--line); border-radius:11px; padding:17px 19px}
-  .principles h4{margin:0 0 5px; font-size:15.5px}
+  .principles div{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px 20px; box-shadow:var(--shadow)}
+  .principles h4{margin:0 0 5px; font-size:15.5px; font-weight:800; letter-spacing:-.01em}
   .principles p{margin:0; font-size:13.5px; color:var(--ink-soft)}
-  .principles .n{font-family:var(--disp); font-weight:900; color:var(--clay); font-size:19px; margin-right:7px}
+  .principles .n{font-family:var(--disp); font-weight:800; color:var(--teal); font-size:19px; margin-right:7px}
   .lede-note{font-size:13.5px; color:var(--ink-faint); font-family:var(--mono); margin:20px 0 0; padding-top:14px; border-top:1px solid var(--line)}
 
   /* ---- extension cards ---- */
-  .cat-note{font-size:14px; color:var(--ink-soft); margin:-8px 0 22px}
-  .ext{background:var(--card); border:1.5px solid var(--line-strong); border-radius:var(--r); padding:22px 24px; box-shadow:var(--shadow); margin-bottom:16px}
+  .cat-note{font-size:14px; color:var(--ink-soft); margin:-2px 0 22px}
+  .ext{background:var(--card); border:2px solid var(--line); border-radius:var(--r); padding:24px 26px; box-shadow:var(--shadow); margin-bottom:16px}
   .ext-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:7px}
-  .ext-head h3{font-size:18.5px; font-family:var(--mono); letter-spacing:-.01em}
+  .ext-head h3{font-size:18.5px; font-family:var(--mono); letter-spacing:-.01em; font-weight:600; color:var(--teal-deep)}
   .bdg{font-family:var(--mono); font-size:10.5px; font-weight:600; padding:3px 9px; border-radius:100px; letter-spacing:.03em}
-  .bdg.ok{background:var(--olive-tint); color:var(--olive)}
-  .bdg.warn{background:#FBF1E2; color:var(--amber)}
+  .bdg.ok{background:var(--mint); color:var(--teal-deep)}
+  .bdg.warn{background:#fff; border:1px solid var(--line-strong); color:var(--muted,#5C6B64)}
   .ext .what{color:var(--ink); font-size:15px; margin:0 0 5px}
   .ext .why{font-size:14px; color:var(--ink-soft); margin:0 0 8px}
-  .ext .why b{color:var(--clay-deep); font-weight:600}
+  .ext .why b{color:var(--teal); font-weight:700}
   .mlabel{font-family:var(--mono); font-size:11px; color:var(--ink-faint); font-weight:600; letter-spacing:.05em; text-transform:uppercase; margin:13px 0 3px}
 
-  .cmd{display:flex; align-items:center; gap:10px; background:#241F18; color:#F0E9DA; font-family:var(--mono); font-size:13.5px; border-radius:9px; padding:10px 12px; margin:4px 0; overflow-x:auto}
-  .cmd code{white-space:pre; color:#F0E9DA}
-  .cmd .prompt{color:var(--clay); user-select:none}
-  .cmd .copy{margin-left:auto; flex:none; background:rgba(255,255,255,.08); color:#E9E0CF; border:0; font-family:var(--mono); font-size:11px; padding:5px 9px; border-radius:6px; cursor:pointer; transition:background .2s}
-  .cmd .copy:hover{background:rgba(255,255,255,.18)}
-  .cmd .copy.done{background:var(--olive); color:#fff}
+  .cmd{display:flex; align-items:center; gap:10px; background:var(--teal-deep2); color:#EAF7F1; font-family:var(--mono); font-size:13.5px; border-radius:12px; padding:11px 13px; margin:4px 0; overflow-x:auto}
+  .cmd code{white-space:pre; color:#EAF7F1}
+  .cmd .prompt{color:var(--mint-bright); user-select:none}
+  .cmd .copy{margin-left:auto; flex:none; background:rgba(255,255,255,.10); color:#CFE8DC; border:0; font-family:var(--mono); font-size:11px; padding:5px 9px; border-radius:6px; cursor:pointer; transition:background .2s}
+  .cmd .copy:hover{background:rgba(255,255,255,.20)}
+  .cmd .copy.done{background:var(--teal-bright); color:#fff}
 
-  .pitfall{display:flex; gap:11px; background:#FBF1E2; border:1px solid #EAD3B0; border-left:3px solid var(--amber); border-radius:9px; padding:13px 15px; font-size:14px; color:#5b4a30; margin-top:12px}
-  .pitfall b{color:var(--amber)}
-  .pitfall.stop{background:#F7E6DD; border-color:#E3B7A2; border-left-color:var(--clay-deep)}
-  .pitfall.stop b{color:var(--clay-deep)}
+  .pitfall{display:flex; gap:11px; background:#F0F7F3; border:1px solid #CDE5DB; border-left:3px solid var(--teal-bright); border-radius:11px; padding:13px 15px; font-size:14px; color:#2f4a40; margin-top:12px}
+  .pitfall b{color:var(--teal)}
+  .pitfall.stop{background:#E6F1EB; border-color:#B9D8C9; border-left-color:var(--teal-deep)}
+  .pitfall.stop b{color:var(--teal-deep)}
 
   /* guide block (전역지침) */
-  .guide{background:var(--card); border:1.5px solid var(--line-strong); border-radius:var(--r); padding:24px 26px; box-shadow:var(--shadow)}
-  .guide h4{font-size:15px; margin:18px 0 7px; font-family:var(--mono); color:var(--clay-deep)}
+  .guide{background:var(--card); border:2px solid var(--line); border-radius:var(--r); padding:26px 28px; box-shadow:var(--shadow)}
+  .guide h4{font-size:15px; margin:18px 0 7px; font-family:var(--mono); color:var(--teal); font-weight:600}
   .guide h4:first-child{margin-top:0}
   .guide p{margin:0 0 6px; font-size:15px; color:var(--ink-soft)}
   .guide ul{margin:0; padding-left:20px; font-size:14.5px; color:var(--ink-soft)}
   .guide ul li{margin:3px 0}
-  .guide code{font-family:var(--mono); font-size:13px; background:var(--paper-2); padding:1px 6px; border-radius:5px; color:var(--ink)}
+  .guide code{font-family:var(--mono); font-size:13px; background:var(--mint-grad); padding:1px 6px; border-radius:5px; color:var(--ink)}
 
   /* ---- safety ---- */
-  .safety{background:var(--ink); color:#EDE5D5; border-radius:18px; padding:40px 36px; position:relative; overflow:hidden}
-  .safety h2{color:#fff; font-size:clamp(24px,3.6vw,32px)}
-  .safety .kicker{color:#E89B78}
-  .safety p{color:#C7BCA8; max-width:62ch}
-  .safe-checks{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:24px}
-  .safe-checks div{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:11px; padding:18px}
-  .safe-checks h4{margin:0 0 6px; font-size:15.5px; color:#F3D9C7}
-  .safe-checks p{margin:0; font-size:13.5px; color:#B6AB97}
-  .safe-foot{margin-top:22px; font-size:13.5px; color:#B6AB97; font-family:var(--mono)}
+  .safety{background:var(--ink); color:#D7E3DD; border-radius:26px; padding:44px 40px; position:relative; overflow:hidden}
+  .safety::after{content:""; position:absolute; left:0; right:0; bottom:0; height:200px; background:linear-gradient(transparent, rgba(26,158,115,.12)); pointer-events:none}
+  .safety h2{color:#fff; font-size:clamp(24px,3.6vw,32px); font-weight:800; letter-spacing:-.02em; position:relative}
+  .safety .kicker{color:var(--mint-bright)}
+  .safety .kicker::before{background:var(--mint-bright)}
+  .safety p{color:#AEC4BA; max-width:62ch; position:relative}
+  .safe-checks{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:24px; position:relative}
+  .safe-checks div{background:rgba(255,255,255,.05); border:1px solid rgba(124,224,182,.18); border-radius:14px; padding:18px}
+  .safe-checks h4{margin:0 0 6px; font-size:15.5px; color:var(--mint); font-weight:700}
+  .safe-checks p{margin:0; font-size:13.5px; color:#9DB3A9}
+  .safe-foot{margin-top:22px; font-size:13.5px; color:#9DB3A9; font-family:var(--mono); position:relative}
   @media(max-width:640px){ .safe-checks{grid-template-columns:1fr} }
 
   /* ---- closing ---- */
-  .closing{text-align:center; padding:72px 0 52px}
-  .closing h2{font-size:clamp(28px,5vw,50px); font-weight:700; letter-spacing:-.03em}
-  .closing h2 .sig{font-family:var(--disp); font-style:italic; font-weight:500; color:var(--clay)}
-  .closing p{color:var(--ink-soft); margin:18px 0 30px}
+  .closing{text-align:center; padding:80px 0 56px}
+  .closing h2{font-size:clamp(28px,5vw,50px); font-weight:800; letter-spacing:-.03em}
+  .closing p{color:var(--ink-soft); margin:18px 0 30px; font-weight:500}
 
   footer{border-top:1px solid var(--line); padding:34px 0; font-size:13.5px; color:var(--ink-faint)}
   .foot-in{display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; align-items:center}
   .foot-in .mono{font-size:12px}
-  footer a{color:var(--clay-deep); text-decoration:none}
+  footer a{color:var(--teal); text-decoration:none}
 
   @media(max-width:640px){ .ext-head h3{font-size:17px} }
   @media(prefers-reduced-motion:reduce){
@@ -191,7 +193,7 @@
     <div class="wrap hero-grid">
       <div>
         <span class="kicker">개발자 트랙 · Claude Code · 1일차</span>
-        <h1>무엇부터<br>깔까?<br><span class="sig">확장 추천</span></h1>
+        <h1>무엇부터<br><span class="hl">깔까?</span><br><span class="sig">확장 추천</span></h1>
         <p class="lead">Claude Code를 처음 켠 개발자를 위한 <b>공식(Anthropic) 확장</b> 큐레이션. 원칙은 하나 — <b>많이 까는 게 아니라, 최소로 시작해 필요할 때 하나씩.</b> 모든 설치 명령은 공식 문서에서 확인된 것만 실었습니다.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#principle">먼저 원칙부터 →</a>
@@ -212,7 +214,7 @@
     <div class="wrap">
       <div class="sec-head">
         <span class="kicker">먼저 읽기</span>
-        <h2>많이 까는 게 아니라, 고르는 것</h2>
+        <h2>많이 까는 게 아니라, <span class="hl">고르는 것</span></h2>
         <p>입문자가 가장 많이 하는 실수 = 처음부터 잔뜩 설치.</p>
       </div>
       <div class="principles">
@@ -255,7 +257,7 @@
       </div>
 
       <div class="ext">
-        <div class="ext-head"><h3>개인 스킬 직접배치</h3><span class="bdg ok">공식 · 확정</span><span class="bdg" style="background:var(--paper-2);color:var(--ink-faint)">방법</span></div>
+        <div class="ext-head"><h3>개인 스킬 직접배치</h3><span class="bdg ok">공식 · 확정</span><span class="bdg warn">방법</span></div>
         <p class="what">레지스트리 없이, <span class="mono" style="font-size:13px">SKILL.md</span> 한 폴더면 끝. 디렉터리 이름이 곧 <span class="mono" style="font-size:13px">/명령어</span>가 됩니다.</p>
         <p class="why"><b>왜 초반에:</b> npx/npm 불필요 — 가장 마찰이 적은 방식. 모든 프로젝트에 적용.</p>
         <div class="mlabel">직접 — 폴더 만들고 SKILL.md 작성</div>
@@ -306,7 +308,7 @@
       <div class="ext">
         <div class="ext-head"><h3>Fetch · Sequential Thinking · Time</h3><span class="bdg warn">현행 · 명령 미확인</span></div>
         <p class="what">Fetch(URL→마크다운) · Sequential Thinking(단계적 추론) · Time(시간대 변환) — 모두 현행 7종에 포함.</p>
-        <div class="pitfall"><span>⚠</span><div><b>정직하게</b> — 이 3종은 현행 reference 서버가 맞지만, <b>정확한 설치 명령이 공식 메인 README에 없어</b> 여기 추측해 적지 않습니다. 설치 전 공식 레포 <a href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener" style="color:var(--clay-deep)">modelcontextprotocol/servers</a>의 각 서버 폴더 README에서 명령을 확인하세요.</div></div>
+        <div class="pitfall"><span>⚠</span><div><b>정직하게</b> — 이 3종은 현행 reference 서버가 맞지만, <b>정확한 설치 명령이 공식 메인 README에 없어</b> 여기 추측해 적지 않습니다. 설치 전 공식 레포 <a href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener" style="color:var(--teal)">modelcontextprotocol/servers</a>의 각 서버 폴더 README에서 명령을 확인하세요.</div></div>
       </div>
 
       <p class="cat-note" style="margin-top:6px"><b>원격(주소) MCP</b>는 <span class="mono">claude mcp add --transport http &lt;name&gt; &lt;url&gt;</span> (공식 지원). 단 <span class="mono">claude.ai/directory</span>의 커넥터는 대부분 <b>파트너 제작</b>(Anthropic은 큐레이션만) — '공식 Anthropic 서버'와 구분하세요.</p>
@@ -403,14 +405,14 @@
     <div class="wrap">
       <div class="safety">
         <span class="kicker">설치 전 1분</span>
-        <h2 style="margin-top:10px">확장 = 코드 실행. 신뢰부터.</h2>
+        <h2 style="margin-top:10px">확장 = 코드 실행. <span style="color:var(--mint-bright)">신뢰</span>부터.</h2>
         <p>Skill · MCP 서버 · Plugin은 당신의 권한으로 코드를 실행하고 파일·도구에 접근합니다. 공식만 골랐어도, 설치 전 3가지는 확인하세요.</p>
         <div class="safe-checks">
           <div><h4>① 출처 · 버전</h4><p>공식(anthropics/*)인가? 버전을 고정(pin)했나? 커뮤니티 소스는 따로 audit.</p></div>
           <div><h4>② 무엇을 설치하나</h4><p>설치 전 "Will install"(명령·MCP·hook) 목록을 읽었나? 모르는 건 설치하지 않기.</p></div>
           <div><h4>③ 외부 콘텐츠</h4><p>민감 데이터 + 미신뢰 콘텐츠 + 외부 유출경로가 한 세션에 겹치면 위험(lethal trifecta). 분리하기.</p></div>
         </div>
-        <p class="safe-foot">※ 한 커뮤니티 스킬 벤치마크에선 일부 스킬이 오히려 에이전트를 <b style="color:#E89B78">악화</b>시켰습니다 — "고르지 않은 건 깔지 않는다"가 가장 안전한 기본값.</p>
+        <p class="safe-foot">※ 한 커뮤니티 스킬 벤치마크에선 일부 스킬이 오히려 에이전트를 <b style="color:var(--mint-bright)">악화</b>시켰습니다 — "고르지 않은 건 깔지 않는다"가 가장 안전한 기본값.</p>
       </div>
     </div>
   </section>
@@ -418,7 +420,7 @@
   <!-- CLOSING -->
   <section class="closing">
     <div class="wrap">
-      <span class="kicker">시작은 가볍게</span>
+      <span class="kicker" style="justify-content:center">시작은 가볍게</span>
       <h2>오늘은 <span class="sig">하나만</span>.</h2>
       <p>네 범주를 다 깔 필요 없습니다. 지금 필요한 하나부터 — 나머지는 막힐 때 추가하세요.</p>
       <div class="cta-row" style="justify-content:center">
