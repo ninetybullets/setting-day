@@ -142,6 +142,18 @@
   .guide ul li{margin:3px 0}
   .guide code{font-family:var(--mono); font-size:13px; background:var(--mint-grad); padding:1px 6px; border-radius:5px; color:var(--ink)}
 
+  /* ---- community deep-dive guide cards ---- */
+  .guide-cards{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:4px}
+  .gcard{display:block; text-decoration:none; background:var(--card); border:2px solid var(--line); border-radius:var(--r); padding:24px 26px; box-shadow:var(--shadow); transition:transform .15s, border-color .2s, box-shadow .15s}
+  .gcard:hover{transform:translateY(-3px); border-color:var(--teal-bright); box-shadow:0 18px 40px rgba(14,107,79,.16)}
+  .gcard .gk{display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11px; color:var(--ink-faint); font-weight:600; letter-spacing:.04em; text-transform:uppercase}
+  .gcard .gk .tag-com{background:#fff; border:1px solid var(--line-strong); color:var(--ink-soft); border-radius:100px; padding:2px 8px; letter-spacing:.03em}
+  .gcard h3{font-size:20px; margin:9px 0 6px; color:var(--teal-deep); letter-spacing:-.01em; font-weight:700}
+  .gcard p{margin:0; font-size:14.5px; color:var(--ink-soft)}
+  .gcard .go{display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-weight:700; color:var(--teal); font-size:14.5px}
+  .gcard:hover .go{gap:10px}
+  @media(max-width:760px){ .guide-cards{grid-template-columns:1fr} }
+
   /* ---- safety ---- */
   .safety{background:var(--ink); color:#D7E3DD; border-radius:26px; padding:44px 40px; position:relative; overflow:hidden}
   .safety::after{content:""; position:absolute; left:0; right:0; bottom:0; height:200px; background:linear-gradient(transparent, rgba(26,158,115,.12)); pointer-events:none}
@@ -397,6 +409,32 @@
       </div>
 
       <p class="cat-note" style="margin-top:6px">기타 Anthropic 제작 범용 후보: <span class="mono">feature-dev · pr-review-toolkit · plugin-dev · hookify · playground</span>, 언어별 LSP(<span class="mono">pyright-lsp</span> 등). 자동등록이 안 보이면: <span class="mono">/plugin marketplace add anthropics/claude-plugins-official</span>. (카탈로그는 조사일 기준 일부 — 전체는 공식 문서 확인.)</p>
+    </div>
+  </section>
+
+  <!-- COMMUNITY DEEP-DIVE GUIDES -->
+  <section id="guides">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">한 걸음 더 · 부록</span>
+        <h2>커뮤니티 스킬 <span class="hl">심화 가이드</span></h2>
+        <p>위 큐레이션과 달리 <b>공식(Anthropic)이 아닙니다.</b> 입문자가 자주 묻는 커뮤니티 스킬 2종을 따로 풀어 썼습니다.</p>
+      </div>
+      <div class="pitfall stop" style="margin:0 0 22px"><span>🔵</span><div><b>구분</b> — 아래 두 가이드의 스킬은 <b>커뮤니티(비공식)</b> 확장입니다. 위 ①~④ 공식 큐레이션과 별개로, 설치 전 원본 저장소를 직접 확인하고 버전을 고정하세요(원칙 5).</div></div>
+      <div class="guide-cards">
+        <a class="gcard" href="./karpathy-skills-guide.html">
+          <span class="gk">스킬 심화 <span class="tag-com">커뮤니티</span></span>
+          <h3>Karpathy Guidelines</h3>
+          <p>AI 코딩 에이전트의 “안전벨트”. 과설계·범위이탈·근거 없는 ‘완료’를 줄이는 4가지 행동 원칙과 Claude Code 설치법.</p>
+          <span class="go">가이드 열기 →</span>
+        </a>
+        <a class="gcard" href="./grill-skills-guide.html">
+          <span class="gk">스킬 심화 <span class="tag-com">커뮤니티</span></span>
+          <h3>grill 스킬 (grill-me · grill-with-docs)</h3>
+          <p>구현 전에 내 계획의 허점을 질문으로 찾는 두 스킬. 차이·사용 시점·예제와 Claude Code 적용법.</p>
+          <span class="go">가이드 열기 →</span>
+        </a>
+      </div>
     </div>
   </section>
 

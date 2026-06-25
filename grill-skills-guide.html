@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>grill 스킬 가이드 (grill-me · grill-with-docs) — Setting Day</title>
+<meta name="description" content="grill-me와 grill-with-docs를 입문자용으로 풀어 쓴 심화 가이드. 구현 전에 내 계획의 허점을 질문으로 찾는 두 스킬의 차이·사용 시점·예제·Claude Code 적용법." />
+<!-- Open Graph / link preview -->
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Setting Day" />
+<meta property="og:title" content="grill 스킬 가이드 — Setting Day" />
+<meta property="og:description" content="내 계획을 물고 늘어져 허점을 찾는 grill-me · grill-with-docs. 언제 무엇을 쓸지 정리한 커뮤니티 스킬 심화 가이드." />
+<meta property="og:url" content="https://ninetybullets.github.io/setting-day/grill-skills-guide.html" />
+<meta property="og:image" content="https://ninetybullets.github.io/setting-day/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Setting Day — grill 스킬 심화 가이드" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="grill 스킬 가이드 — Setting Day" />
+<meta name="twitter:description" content="내 계획을 물고 늘어져 허점을 찾는 grill-me · grill-with-docs 심화 가이드." />
+<meta name="twitter:image" content="https://ninetybullets.github.io/setting-day/og-image.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendard-variable.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    /* Apollo palette (deep-teal + mint on white) */
+    --teal:#0E6B4F; --teal-bright:#1A9E73; --teal-deep:#08402F; --teal-deep2:#072E22;
+    --mint:#D9F0E6; --mint-grad:#EAF7F1; --mint-bright:#7CE0B6;
+    --paper:#FFFFFF; --paper-2:#EAF7F1; --card:#FFFFFF;
+    --ink:#16201C; --ink-soft:#5C6B64; --ink-faint:#8A968F;
+    --line:#D7E3DD; --line-strong:#C2D2CB;
+    --shadow:0 14px 34px rgba(14,107,79,.10);
+    --r:22px;
+    --s1:8px; --s2:13px; --s3:21px; --s4:34px; --s5:55px; --s6:89px;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --sans:'Pretendard Variable',Pretendard,system-ui,'Apple SD Gothic Neo',sans-serif;
+    --disp:'Pretendard Variable',Pretendard,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-weight:400; line-height:1.7;
+    font-size:17px; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:0 26px; position:relative; z-index:2}
+  a{color:inherit}
+  h1,h2,h3{line-height:1.16; margin:0; font-weight:700; letter-spacing:-.01em}
+  .mono{font-family:var(--mono)}
+  .kicker{display:inline-flex; align-items:center; gap:10px; font-family:var(--sans); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); font-weight:800}
+  .kicker::before{content:""; width:26px; height:4px; border-radius:3px; background:var(--teal); flex:none}
+  .hl{background:linear-gradient(transparent 56%, var(--mint) 56%); color:var(--teal); padding:0 .05em; border-radius:2px}
+  .sig{font-family:var(--disp); font-style:normal; font-weight:800; color:var(--teal); letter-spacing:-.01em}
+
+  /* ---- nav ---- */
+  header.nav{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  .nav-in{display:flex; align-items:center; justify-content:space-between; height:64px}
+  .brand{font-family:var(--disp); font-weight:800; font-size:21px; letter-spacing:.01em; display:flex; align-items:center; gap:9px; color:var(--teal); text-decoration:none}
+  .brand .dot{width:11px; height:11px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 4px var(--mint)}
+  .nav-links{display:flex; gap:24px; align-items:center; font-size:14.5px; font-weight:600}
+  .nav-links a{text-decoration:none; color:var(--ink-soft); transition:color .2s}
+  .nav-links a:hover{color:var(--teal)}
+  .nav-links a.here{color:var(--teal); font-weight:700}
+  .nav-badge{font-family:var(--mono); font-size:11px; color:var(--ink-faint); border:1px solid var(--line-strong); border-radius:100px; padding:4px 10px}
+  @media(max-width:760px){ .nav-links a:not(.nav-badge){display:none} }
+
+  /* ---- hero ---- */
+  .hero{padding:72px 0 40px; position:relative}
+  .hero .crumb{font-family:var(--mono); font-size:12.5px; color:var(--ink-faint); margin-bottom:18px}
+  .hero .crumb a{color:var(--teal); text-decoration:none; font-weight:600}
+  .hero h1{font-size:clamp(38px,6.4vw,74px); font-weight:800; letter-spacing:-.035em; line-height:1.12; margin-top:16px}
+  .hero .lead{font-size:clamp(17px,2.1vw,21px); color:var(--ink-soft); max-width:60ch; margin:var(--s4) 0 0; font-weight:500; line-height:1.55}
+  .hero .lead b{color:var(--ink); font-weight:700}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:var(--s4)}
+  .btn{display:inline-flex; align-items:center; gap:9px; font-family:var(--sans); font-weight:700; font-size:15.5px; padding:14px 26px; border-radius:100px; text-decoration:none; border:1.5px solid transparent; cursor:pointer; transition:transform .15s, box-shadow .15s, background .2s}
+  .btn-primary{background:var(--teal); color:#fff; box-shadow:0 6px 18px rgba(14,107,79,.28)}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(14,107,79,.34); background:#0c5e45}
+  .btn-primary:active{transform:translateY(0)}
+  .btn-ghost{background:transparent; border-color:var(--line-strong); color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal); background:var(--mint-grad)}
+
+  /* quick answer (hero 2-up) */
+  .quick{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:var(--s4); max-width:760px}
+  .quick .qc{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px 20px; box-shadow:var(--shadow)}
+  .quick .qc strong{display:block; font-family:var(--mono); color:var(--teal-deep); font-size:15px; margin-bottom:4px}
+  .quick .qc span{color:var(--ink-soft); font-size:14px}
+  @media(max-width:640px){ .quick{grid-template-columns:1fr} }
+
+  /* section frame */
+  section{padding:var(--s5) 0; position:relative}
+  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:var(--s4); flex-wrap:wrap}
+  .sec-head h2{font-size:clamp(26px,3.8vw,38px); font-weight:800; letter-spacing:-.02em}
+  .sec-head p{color:var(--ink-soft); margin:0; font-size:16px; font-weight:500}
+
+  /* generic cards */
+  .card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px 24px; box-shadow:var(--shadow)}
+  .card h3{font-size:18px; margin:0 0 8px; letter-spacing:-.01em}
+  .card p{margin:0 0 6px; font-size:15px; color:var(--ink-soft)}
+  .card p:last-child{margin-bottom:0}
+  .card p b, .card li b{color:var(--teal); font-weight:700}
+  .card ul{margin:6px 0 0; padding-left:20px; font-size:14.5px; color:var(--ink-soft)}
+  .card ul li{margin:4px 0}
+  .card .tag{font-family:var(--mono); font-size:11px; color:var(--teal); font-weight:600; letter-spacing:.05em; text-transform:uppercase; margin-bottom:8px; display:inline-block}
+
+  .lede{border-left:6px solid var(--teal-bright)}
+  .lede p{font-size:16px; color:var(--ink)}
+  .lede p b{color:var(--teal)}
+
+  /* principles / tips grid (numbered) */
+  .principles{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px}
+  .principles .p{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; box-shadow:var(--shadow)}
+  .principles .n{display:inline-grid; place-items:center; width:34px; height:34px; border-radius:50%; background:var(--teal); color:#fff; font-family:var(--disp); font-weight:800; font-size:16px; margin-bottom:12px}
+  .principles h3{font-size:16px; margin:0 0 6px; letter-spacing:-.01em}
+  .principles p{margin:0; font-size:14px; color:var(--ink-soft)}
+
+  /* choice cards */
+  .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+  @media(max-width:760px){ .grid-2{grid-template-columns:1fr} }
+  .choice{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px 24px; box-shadow:var(--shadow)}
+  .choice .bdg{display:inline-block; font-family:var(--mono); font-size:11px; font-weight:600; padding:3px 10px; border-radius:100px; background:var(--mint); color:var(--teal-deep); margin-bottom:10px}
+  .choice h3{font-size:18px; margin:0 0 8px; color:var(--teal-deep)}
+  .choice ul{margin:0; padding-left:20px; font-size:14.5px; color:var(--ink-soft)}
+  .choice ul li{margin:5px 0}
+  .choice p{margin:0; font-size:14.5px; color:var(--ink-soft)}
+
+  /* table */
+  table{width:100%; border-collapse:collapse; border-radius:14px; overflow:hidden; background:var(--card); border:1px solid var(--line); box-shadow:var(--shadow); margin-top:4px}
+  th,td{padding:14px 16px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; font-size:14.5px}
+  th{background:var(--teal-deep2); color:#EAF7F1; font-weight:700; font-size:13.5px; letter-spacing:-.01em}
+  td{color:var(--ink-soft)} td:first-child{color:var(--ink); font-weight:600}
+  tr:last-child td{border-bottom:0}
+
+  /* command / code */
+  .cmd{display:flex; align-items:flex-start; gap:10px; background:var(--teal-deep2); color:#EAF7F1; font-family:var(--mono); font-size:13.5px; border-radius:12px; padding:11px 13px; margin:4px 0; overflow-x:auto}
+  .cmd code{white-space:pre; color:#EAF7F1}
+  .cmd .prompt{color:var(--mint-bright); user-select:none}
+  .cmd .copy{margin-left:auto; flex:none; background:rgba(255,255,255,.10); color:#CFE8DC; border:0; font-family:var(--mono); font-size:11px; padding:5px 9px; border-radius:6px; cursor:pointer; transition:background .2s}
+  .cmd .copy:hover{background:rgba(255,255,255,.20)}
+  .cmd .copy.done{background:var(--teal-bright); color:#fff}
+  .mlabel{font-family:var(--mono); font-size:11px; color:var(--ink-faint); font-weight:600; letter-spacing:.05em; text-transform:uppercase; margin:13px 0 3px}
+
+  /* prompt example block */
+  .example{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; box-shadow:var(--shadow)}
+  .example h3{font-family:var(--mono); font-size:15px; color:var(--teal-deep); margin:0 0 10px}
+  pre.snippet{background:var(--mint-grad); border:1px solid var(--line); border-left:4px solid var(--teal-bright); border-radius:12px; padding:14px 16px; font-family:var(--mono); font-size:13px; color:var(--ink); white-space:pre-wrap; word-break:break-word; line-height:1.55; margin:0}
+  pre.snippet .cmd-line{color:var(--teal); font-weight:600}
+
+  /* good / bad */
+  .gb{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .gb .col{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; box-shadow:var(--shadow)}
+  .gb .good{border-top:5px solid var(--teal-bright)}
+  .gb .bad{border-top:5px solid var(--line-strong)}
+  .gb h4{margin:0 0 10px; font-size:15.5px; display:flex; align-items:center; gap:8px; letter-spacing:-.01em}
+  .gb .good h4{color:var(--teal)}
+  .gb .bad h4{color:var(--ink-faint)}
+  .gb .mark{display:inline-grid; place-items:center; width:22px; height:22px; border-radius:50%; font-size:13px; font-weight:800; color:#fff}
+  .gb .good .mark{background:var(--teal-bright)}
+  .gb .bad .mark{background:var(--ink-faint)}
+  @media(max-width:760px){ .gb{grid-template-columns:1fr} }
+
+  /* extension/install cards */
+  .ext{background:var(--card); border:2px solid var(--line); border-radius:var(--r); padding:24px 26px; box-shadow:var(--shadow); margin-bottom:16px}
+  .ext-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:7px}
+  .ext-head h3{font-size:18px; letter-spacing:-.01em; font-weight:700; color:var(--teal-deep)}
+  .bdg{font-family:var(--mono); font-size:10.5px; font-weight:600; padding:3px 9px; border-radius:100px; letter-spacing:.03em}
+  .bdg.ok{background:var(--mint); color:var(--teal-deep)}
+  .bdg.warn{background:#fff; border:1px solid var(--line-strong); color:var(--ink-soft)}
+  .ext .why{font-size:14px; color:var(--ink-soft); margin:0 0 8px}
+  .ext .why b{color:var(--teal); font-weight:700}
+
+  .pitfall{display:flex; gap:11px; background:#F0F7F3; border:1px solid #CDE5DB; border-left:3px solid var(--teal-bright); border-radius:11px; padding:13px 15px; font-size:14px; color:#2f4a40; margin-top:12px}
+  .pitfall b{color:var(--teal)}
+
+  /* inline code in prose */
+  .ic{font-family:var(--mono); font-size:13px; background:var(--mint-grad); padding:1px 6px; border-radius:5px; color:var(--ink)}
+
+  /* links */
+  .links{display:grid; gap:10px; list-style:none; padding:0; margin:0}
+  .links li{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 16px; font-size:14.5px; color:var(--ink-soft); box-shadow:var(--shadow)}
+  .links a{color:var(--teal); font-weight:700; text-decoration:none}
+  .links a:hover{text-decoration:underline}
+  .note{color:var(--ink-faint); font-size:13.5px; font-family:var(--mono); margin:16px 0 0; padding-top:14px; border-top:1px solid var(--line)}
+
+  /* closing */
+  .closing{text-align:center; padding:74px 0 52px}
+  .closing h2{font-size:clamp(26px,4.4vw,44px); font-weight:800; letter-spacing:-.03em}
+  .closing p{color:var(--ink-soft); margin:16px 0 28px; font-weight:500}
+
+  footer{border-top:1px solid var(--line); padding:34px 0; font-size:13.5px; color:var(--ink-faint)}
+  .foot-in{display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; align-items:center}
+  .foot-in .mono{font-size:12px}
+  footer a{color:var(--teal); text-decoration:none}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important; scroll-behavior:auto !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="./index.html"><span class="dot"></span>Setting&nbsp;Day</a>
+    <nav class="nav-links">
+      <a href="./index.html">설치편</a>
+      <a href="./usage.html">사용편</a>
+      <a href="./advanced.html">심화편</a>
+      <a href="./extensions.html" class="here">확장편</a>
+      <span class="nav-badge mono">심화 가이드</span>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="crumb"><a href="./extensions.html">← 확장편</a> · 커뮤니티 스킬 심화</div>
+      <span class="kicker">부록 · 커뮤니티 스킬</span>
+      <h1>내 계획을<br><span class="hl">물고 늘어지는</span><br><span class="sig">grill 스킬</span></h1>
+      <p class="lead"><b>grill-me</b>와 <b>grill-with-docs</b>는 모두 “내 계획을 날카롭게 질문해 허점을 찾는” 도구입니다. 차이는 하나 — <b>문서와 프로젝트 맥락까지 반영하느냐.</b></p>
+      <div class="quick">
+        <div class="qc"><strong>grill-me</strong><span>내 아이디어·계획 자체를 질문으로 검증.</span></div>
+        <div class="qc"><strong>grill-with-docs</strong><span>기존 코드·용어집·ADR과 맞는지까지 검증.</span></div>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#diff">차이부터 보기 →</a>
+        <a class="btn btn-ghost" href="#install">적용 방법</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONE-LINER -->
+  <section id="summary">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">한 문장 요약</span>
+        <h2>둘 다 “물고 늘어져줘”, <span class="hl">범위만 다르다</span></h2>
+      </div>
+      <div class="card lede">
+        <p><b>grill-me</b> — “내 계획을 물고 늘어져줘.”</p>
+        <p style="margin-top:6px"><b>grill-with-docs</b> — “내 계획을 기존 프로젝트의 언어·결정에 비춰 물고 늘어지고, 필요하면 문서까지 갱신해줘.”</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFF TABLE -->
+  <section id="diff">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">비교</span>
+        <h2>두 스킬의 차이</h2>
+      </div>
+      <table>
+        <thead>
+          <tr><th>구분</th><th>grill-me</th><th>grill-with-docs</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>목적</td><td>계획·설계 자체를 질문으로 검증</td><td>기존 문서·코드·도메인 언어와 맞춰 검증</td></tr>
+          <tr><td>문서 확인</td><td>필요하면 코드 탐색</td><td><span class="ic">CONTEXT.md</span> · <span class="ic">docs/adr/</span> 확인</td></tr>
+          <tr><td>용어 정리</td><td>가능하지만 핵심은 아님</td><td>핵심 기능 — 애매한 단어를 정확한 용어로</td></tr>
+          <tr><td>문서 업데이트</td><td>기본적으로 안 함</td><td>확정 용어는 <span class="ic">CONTEXT.md</span>에 반영</td></tr>
+          <tr><td>ADR</td><td>기본적으로 안 함</td><td>중요한 기술 결정이면 ADR 제안 가능</td></tr>
+          <tr><td>추천 상황</td><td>새 아이디어, 독립 계획, 문서화 전 단계</td><td>기존 제품·코드베이스 안에서 변경할 때</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- WHEN -->
+  <section id="when">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">선택</span>
+        <h2>언제 무엇을 쓸까</h2>
+      </div>
+      <div class="grid-2">
+        <article class="choice">
+          <span class="bdg">가볍게 검증</span>
+          <h3>grill-me를 쓰세요</h3>
+          <ul>
+            <li>아직 프로젝트 문서와 연결하지 않아도 될 때</li>
+            <li>아이디어 단계에서 허점을 찾고 싶을 때</li>
+            <li>기능 설계·정책·흐름을 빠르게 점검하고 싶을 때</li>
+          </ul>
+        </article>
+        <article class="choice">
+          <span class="bdg">프로젝트 맥락 검증</span>
+          <h3>grill-with-docs를 쓰세요</h3>
+          <ul>
+            <li>기존 코드베이스에 기능을 추가할 때</li>
+            <li>도메인 용어가 중요한 프로젝트일 때</li>
+            <li>결정된 내용을 문서에 남기고 싶을 때</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXAMPLES -->
+  <section id="examples">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">사용 예제</span>
+        <h2>실제로 이렇게 부른다</h2>
+      </div>
+      <div class="grid-2">
+        <div class="example">
+          <h3>grill-me 예제</h3>
+          <pre class="snippet"><span class="cmd-line">/grill-me</span>
+
+새 온보딩 플로우를 만들려고 해.
+사용자는 이메일 인증 후 프로필을 입력하고,
+팀을 만들거나 초대 코드로 합류할 수 있어.
+이 계획을 구현 전에 grill 해줘.</pre>
+        </div>
+        <div class="example">
+          <h3>grill-with-docs 예제</h3>
+          <pre class="snippet"><span class="cmd-line">/grill-with-docs</span>
+
+주문 취소 기능을 추가하려고 해.
+현재는 Order 단위 취소만 있는데,
+일부 상품만 취소하는 partial cancellation을 넣고 싶어.
+기존 CONTEXT.md와 ADR 기준으로 grill 해줘.
+필요하면 용어도 정리해줘.</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALOGY -->
+  <section id="analogy">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">비전공자용 비유</span>
+        <h2>친구 vs 회사 규정집</h2>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <h3>grill-me = 친구에게 아이디어 검증받기</h3>
+          <p>“이거 괜찮아?”라고 물으면 친구가 고객·가격·위험·예외 상황을 계속 되묻는 느낌입니다.</p>
+        </article>
+        <article class="card">
+          <h3>grill-with-docs = 규정집 보며 회의하기</h3>
+          <p>새 아이디어를 검토하되, 기존 회사 용어·약속·과거 결정과 충돌하지 않는지 같이 확인합니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOOD USAGE TIPS -->
+  <section id="tips">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">영상에서 강조한 좋은 사용법</span>
+        <h2>이렇게 쓰면 잘 됩니다</h2>
+      </div>
+      <div class="principles">
+        <div class="p"><span class="n">1</span><h3>범위를 작게</h3><p>“전체 시스템”보다 “환불 승인 상태 전이”처럼 작게 나누세요.</p></div>
+        <div class="p"><span class="n">2</span><h3>말로 답할 것만</h3><p>UI 느낌처럼 직접 봐야 아는 건 prototype으로 넘기는 편이 좋습니다.</p></div>
+        <div class="p"><span class="n">3</span><h3>방향은 내가</h3><p>전부 맡기지 말고 “이건 범위 밖이야”라고 능동적으로 조정하세요.</p></div>
+        <div class="p"><span class="n">4</span><h3>결과를 버리지 말기</h3><p>나온 결정은 구현·PRD·handoff·CONTEXT.md·ADR로 보존하세요.</p></div>
+        <div class="p"><span class="n">5</span><h3>똑똑한 모델로</h3><p>좋은 질문을 뽑아내려면 모델의 추론력이 중요합니다.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOOD / BAD -->
+  <section id="goodbad">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">좋은 사용 / 나쁜 사용</span>
+        <h2>한 끗 차이</h2>
+      </div>
+      <div class="gb">
+        <div class="col good">
+          <h4><span class="mark">✓</span> 좋은 사용</h4>
+          <pre class="snippet">이번 세션은 refund 상태 전이까지만 보자.
+UI 느낌은 나중에 prototype으로 확인하자.</pre>
+        </div>
+        <div class="col bad">
+          <h4><span class="mark">✕</span> 나쁜 사용</h4>
+          <pre class="snippet">그냥 알아서 200개 질문해줘.
+전체 시스템을 한 번에 완벽하게 설계해줘.</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALL / TOOLS -->
+  <section id="install">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">적용 위치</span>
+        <h2>Claude Code에 넣으려면</h2>
+      </div>
+      <p class="card" style="margin-bottom:18px; color:var(--ink-soft); font-size:14.5px">제공 자료에는 grill 스킬의 <b style="color:var(--teal)">공식 마켓 설치 명령이 확인되지 않았습니다.</b> 같은 동작을 원하면 <span class="ic">SKILL.md</span>를 개인 스킬 폴더에 배치하거나, grill 지침을 <span class="ic">CLAUDE.md</span>에 복사해 넣습니다. 원본은 아래 “관련 링크”의 Matt Pocock 저장소를 확인하세요.</p>
+      <div class="grid-2">
+        <div class="ext" style="margin-bottom:0">
+          <div class="ext-head"><h3>Claude Code — 개인 스킬</h3><span class="bdg ok">권장</span></div>
+          <p class="why">디렉터리 이름이 곧 <span class="ic">/명령어</span>가 됩니다. 두 스킬을 각각 폴더로:</p>
+          <div class="cmd"><code>~/.claude/skills/grill-me/SKILL.md</code><button class="copy">복사</button></div>
+          <div class="cmd"><code>~/.claude/skills/grill-with-docs/SKILL.md</code><button class="copy">복사</button></div>
+        </div>
+        <div class="ext" style="margin-bottom:0">
+          <div class="ext-head"><h3>Cursor</h3><span class="bdg warn">수동</span></div>
+          <p class="why">프로젝트 rule 파일로 옮겨 적용. 문서 갱신까지 원하면 저장소의 <span class="ic">CONTEXT.md</span>·<span class="ic">docs/adr/</span> 규칙을 함께 넣으세요.</p>
+          <div class="cmd"><code>프로젝트/.cursor/rules/grill-with-docs.mdc</code><button class="copy">복사</button></div>
+        </div>
+        <div class="ext" style="margin-bottom:0">
+          <div class="ext-head"><h3>Codex CLI</h3><span class="bdg warn">수동</span></div>
+          <p class="why">전역 지침 파일에 grill 방식의 질문 규칙을 붙여 넣습니다.</p>
+          <div class="cmd"><code>~/.codex/AGENTS.md</code><button class="copy">복사</button></div>
+        </div>
+        <div class="ext" style="margin-bottom:0">
+          <div class="ext-head"><h3>VS Code · Antigravity</h3><span class="bdg warn">수동</span></div>
+          <p class="why">VS Code는 사용하는 AI 확장의 custom instructions에, Antigravity는 Gemini 계열 지침(<span class="ic">~/.gemini/GEMINI.md</span>)에 grill 지침을 복사해 넣습니다.</p>
+        </div>
+      </div>
+      <div class="pitfall"><span>ℹ</span><div><b>참고</b> — grill 스킬은 <b>커뮤니티(비공식)</b> 확장입니다. <span class="ic">SKILL.md</span>는 YAML frontmatter + 본문이면 충분하며, <span class="ic">description</span>만 잘 적어두면 Claude가 언제 쓸지 판단합니다.</div></div>
+    </div>
+  </section>
+
+  <!-- LINKS -->
+  <section id="links">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">관련 링크</span>
+        <h2>원본 · 출처</h2>
+      </div>
+      <ul class="links">
+        <li>원본 영상: <a href="https://www.youtube.com/watch?v=UzMNBN6xLLA" target="_blank" rel="noopener noreferrer">9 Things People Get Wrong With My /grill-* skills</a></li>
+        <li>/grill-with-docs 소개: <a href="https://aihero.dev/s/kI3sig" target="_blank" rel="noopener noreferrer">aihero.dev/s/kI3sig</a></li>
+        <li>/handoff 소개: <a href="https://aihero.dev/s/hnJZQI" target="_blank" rel="noopener noreferrer">aihero.dev/s/hnJZQI</a></li>
+        <li>Matt Pocock 스킬 모음: <a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener noreferrer">github.com/mattpocock/skills</a></li>
+      </ul>
+      <p class="note">※ 커뮤니티(비공식) 확장 · 설치 명령은 제공 자료에서 미확인 — 사용 전 원본 저장소·영상에서 재확인 권장.</p>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="closing">
+    <div class="wrap">
+      <span class="kicker" style="justify-content:center">다음</span>
+      <h2>코드를 짤 땐 <span class="sig">안전벨트</span>도</h2>
+      <p>에이전트가 과설계·범위이탈을 줄이게 하는 Karpathy Guidelines 가이드도 함께 보세요.</p>
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn btn-primary" href="./karpathy-skills-guide.html">Karpathy 가이드 →</a>
+        <a class="btn btn-ghost" href="./extensions.html">← 확장편으로</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>Setting&nbsp;Day · AI 입문 셋업 캠페인</div>
+    <div class="mono">커뮤니티 스킬 심화 가이드 · 출처: mattpocock/skills · grill-me · grill-with-docs · 설치 전 재확인</div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.cmd .copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var code = btn.parentElement.querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(function(){
+        var t = btn.textContent; btn.textContent='복사됨 ✓'; btn.classList.add('done');
+        setTimeout(function(){ btn.textContent=t; btn.classList.remove('done'); }, 1400);
+      });
+    });
+  });
+</script>
+</body>
+</html>
