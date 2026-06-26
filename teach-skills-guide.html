@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>teach 스킬 가이드 — 요약본 공부와 뭐가 다른가 · Setting Day</title>
+<meta name="description" content="teach 스킬을 입문자용으로 풀어 쓴 심화 가이드. 그냥 요약본으로 공부하는 것과 무엇이 다른지, 어떻게 작동하는지, 잘 쓰려면 무엇이 필요한지." />
+<!-- Open Graph / link preview -->
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Setting Day" />
+<meta property="og:title" content="teach 스킬 가이드 — Setting Day" />
+<meta property="og:description" content="요약본을 읽는 공부 대신, 내 목표에 맞춰 진도를 기억하며 가르치는 stateful 학습 스킬. 무엇이 다른지·어떻게 작동하는지·잘 쓰는 법." />
+<meta property="og:url" content="https://ninetybullets.github.io/setting-day/teach-skills-guide.html" />
+<meta property="og:image" content="https://ninetybullets.github.io/setting-day/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Setting Day — teach 스킬 심화 가이드" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="teach 스킬 가이드 — Setting Day" />
+<meta name="twitter:description" content="요약본 공부와 무엇이 다른가 — 내 목표에 맞춰 가르치는 teach 스킬 심화 가이드." />
+<meta name="twitter:image" content="https://ninetybullets.github.io/setting-day/og-image.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendard-variable.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    /* Apollo palette (deep-teal + mint on white) */
+    --teal:#0E6B4F; --teal-bright:#1A9E73; --teal-deep:#08402F; --teal-deep2:#072E22;
+    --mint:#D9F0E6; --mint-grad:#EAF7F1; --mint-bright:#7CE0B6;
+    --paper:#FFFFFF; --paper-2:#EAF7F1; --card:#FFFFFF;
+    --ink:#16201C; --ink-soft:#5C6B64; --ink-faint:#8A968F;
+    --line:#D7E3DD; --line-strong:#C2D2CB;
+    --shadow:0 14px 34px rgba(14,107,79,.10);
+    --r:22px;
+    --s1:8px; --s2:13px; --s3:21px; --s4:34px; --s5:55px; --s6:89px;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --sans:'Pretendard Variable',Pretendard,system-ui,'Apple SD Gothic Neo',sans-serif;
+    --disp:'Pretendard Variable',Pretendard,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-weight:400; line-height:1.7;
+    font-size:17px; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:0 26px; position:relative; z-index:2}
+  a{color:inherit}
+  h1,h2,h3{line-height:1.16; margin:0; font-weight:700; letter-spacing:-.01em}
+  .mono{font-family:var(--mono)}
+  .kicker{display:inline-flex; align-items:center; gap:10px; font-family:var(--sans); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); font-weight:800}
+  .kicker::before{content:""; width:26px; height:4px; border-radius:3px; background:var(--teal); flex:none}
+  .hl{background:linear-gradient(transparent 56%, var(--mint) 56%); color:var(--teal); padding:0 .05em; border-radius:2px}
+  .sig{font-family:var(--disp); font-style:normal; font-weight:800; color:var(--teal); letter-spacing:-.01em}
+
+  /* ---- nav ---- */
+  header.nav{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  .nav-in{display:flex; align-items:center; justify-content:space-between; height:64px}
+  .brand{font-family:var(--disp); font-weight:800; font-size:21px; letter-spacing:.01em; display:flex; align-items:center; gap:9px; color:var(--teal); text-decoration:none}
+  .brand .dot{width:11px; height:11px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 4px var(--mint)}
+  .nav-links{display:flex; gap:24px; align-items:center; font-size:14.5px; font-weight:600}
+  .nav-links a{text-decoration:none; color:var(--ink-soft); transition:color .2s}
+  .nav-links a:hover{color:var(--teal)}
+  .nav-links a.here{color:var(--teal); font-weight:700}
+  .nav-badge{font-family:var(--mono); font-size:11px; color:var(--ink-faint); border:1px solid var(--line-strong); border-radius:100px; padding:4px 10px}
+  @media(max-width:760px){ .nav-links a:not(.nav-badge){display:none} }
+
+  /* ---- hero ---- */
+  .hero{padding:72px 0 40px; position:relative}
+  .hero .crumb{font-family:var(--mono); font-size:12.5px; color:var(--ink-faint); margin-bottom:18px}
+  .hero .crumb a{color:var(--teal); text-decoration:none; font-weight:600}
+  .hero h1{font-size:clamp(38px,6.4vw,74px); font-weight:800; letter-spacing:-.035em; line-height:1.12; margin-top:16px}
+  .hero .lead{font-size:clamp(17px,2.1vw,21px); color:var(--ink-soft); max-width:60ch; margin:var(--s4) 0 0; font-weight:500; line-height:1.55}
+  .hero .lead b{color:var(--ink); font-weight:700}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:var(--s4)}
+  .btn{display:inline-flex; align-items:center; gap:9px; font-family:var(--sans); font-weight:700; font-size:15.5px; padding:14px 26px; border-radius:100px; text-decoration:none; border:1.5px solid transparent; cursor:pointer; transition:transform .15s, box-shadow .15s, background .2s}
+  .btn-primary{background:var(--teal); color:#fff; box-shadow:0 6px 18px rgba(14,107,79,.28)}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(14,107,79,.34); background:#0c5e45}
+  .btn-primary:active{transform:translateY(0)}
+  .btn-ghost{background:transparent; border-color:var(--line-strong); color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal); background:var(--mint-grad)}
+
+  /* quick answer (hero 2-up) */
+  .quick{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:var(--s4); max-width:760px}
+  .quick .qc{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px 20px; box-shadow:var(--shadow)}
+  .quick .qc strong{display:block; font-family:var(--mono); color:var(--teal-deep); font-size:15px; margin-bottom:4px}
+  .quick .qc span{color:var(--ink-soft); font-size:14px}
+  @media(max-width:640px){ .quick{grid-template-columns:1fr} }
+
+  /* section frame */
+  section{padding:var(--s5) 0; position:relative}
+  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:var(--s4); flex-wrap:wrap}
+  .sec-head h2{font-size:clamp(26px,3.8vw,38px); font-weight:800; letter-spacing:-.02em}
+  .sec-head p{color:var(--ink-soft); margin:0; font-size:16px; font-weight:500}
+
+  /* generic cards */
+  .card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px 24px; box-shadow:var(--shadow)}
+  .card h3{font-size:18px; margin:0 0 8px; letter-spacing:-.01em}
+  .card p{margin:0 0 6px; font-size:15px; color:var(--ink-soft)}
+  .card p:last-child{margin-bottom:0}
+  .card p b, .card li b{color:var(--teal); font-weight:700}
+  .card ul{margin:6px 0 0; padding-left:20px; font-size:14.5px; color:var(--ink-soft)}
+  .card ul li{margin:4px 0}
+  .card .tag{font-family:var(--mono); font-size:11px; color:var(--teal); font-weight:600; letter-spacing:.05em; text-transform:uppercase; margin-bottom:8px; display:inline-block}
+
+  .lede{border-left:6px solid var(--teal-bright)}
+  .lede p{font-size:16px; color:var(--ink)}
+  .lede p b{color:var(--teal)}
+
+  /* principles / tips grid (numbered) */
+  .principles{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px}
+  .principles .p{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; box-shadow:var(--shadow)}
+  .principles .n{display:inline-grid; place-items:center; width:34px; height:34px; border-radius:50%; background:var(--teal); color:#fff; font-family:var(--disp); font-weight:800; font-size:16px; margin-bottom:12px}
+  .principles h3{font-size:16px; margin:0 0 6px; letter-spacing:-.01em}
+  .principles p{margin:0; font-size:14px; color:var(--ink-soft)}
+
+  /* choice cards */
+  .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+  @media(max-width:760px){ .grid-2{grid-template-columns:1fr} }
+  .choice{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px 24px; box-shadow:var(--shadow)}
+  .choice .bdg{display:inline-block; font-family:var(--mono); font-size:11px; font-weight:600; padding:3px 10px; border-radius:100px; background:var(--mint); color:var(--teal-deep); margin-bottom:10px}
+  .choice h3{font-size:18px; margin:0 0 8px; color:var(--teal-deep)}
+  .choice ul{margin:0; padding-left:20px; font-size:14.5px; color:var(--ink-soft)}
+  .choice ul li{margin:5px 0}
+  .choice p{margin:0; font-size:14.5px; color:var(--ink-soft)}
+
+  /* table */
+  table{width:100%; border-collapse:collapse; border-radius:14px; overflow:hidden; background:var(--card); border:1px solid var(--line); box-shadow:var(--shadow); margin-top:4px}
+  th,td{padding:14px 16px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; font-size:14.5px}
+  th{background:var(--teal-deep2); color:#EAF7F1; font-weight:700; font-size:13.5px; letter-spacing:-.01em}
+  td{color:var(--ink-soft)} td:first-child{color:var(--ink); font-weight:600}
+  tr:last-child td{border-bottom:0}
+
+  /* command / code */
+  .cmd{display:flex; align-items:flex-start; gap:10px; background:var(--teal-deep2); color:#EAF7F1; font-family:var(--mono); font-size:13.5px; border-radius:12px; padding:11px 13px; margin:4px 0; overflow-x:auto}
+  .cmd code{white-space:pre; color:#EAF7F1}
+  .cmd .prompt{color:var(--mint-bright); user-select:none}
+  .cmd .copy{margin-left:auto; flex:none; background:rgba(255,255,255,.10); color:#CFE8DC; border:0; font-family:var(--mono); font-size:11px; padding:5px 9px; border-radius:6px; cursor:pointer; transition:background .2s}
+  .cmd .copy:hover{background:rgba(255,255,255,.20)}
+  .cmd .copy.done{background:var(--teal-bright); color:#fff}
+  .mlabel{font-family:var(--mono); font-size:11px; color:var(--ink-faint); font-weight:600; letter-spacing:.05em; text-transform:uppercase; margin:13px 0 3px}
+
+  /* prompt example block */
+  .example{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; box-shadow:var(--shadow)}
+  .example h3{font-family:var(--mono); font-size:15px; color:var(--teal-deep); margin:0 0 10px}
+  pre.snippet{background:var(--mint-grad); border:1px solid var(--line); border-left:4px solid var(--teal-bright); border-radius:12px; padding:14px 16px; font-family:var(--mono); font-size:13px; color:var(--ink); white-space:pre-wrap; word-break:break-word; line-height:1.55; margin:0}
+  pre.snippet .cmd-line{color:var(--teal); font-weight:600}
+
+  /* extension/install cards */
+  .ext{background:var(--card); border:2px solid var(--line); border-radius:var(--r); padding:24px 26px; box-shadow:var(--shadow); margin-bottom:16px}
+  .ext-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:7px}
+  .ext-head h3{font-size:18px; letter-spacing:-.01em; font-weight:700; color:var(--teal-deep)}
+  .bdg{font-family:var(--mono); font-size:10.5px; font-weight:600; padding:3px 9px; border-radius:100px; letter-spacing:.03em}
+  .bdg.ok{background:var(--mint); color:var(--teal-deep)}
+  .bdg.warn{background:#fff; border:1px solid var(--line-strong); color:var(--ink-soft)}
+  .ext .why{font-size:14px; color:var(--ink-soft); margin:0 0 8px}
+  .ext .why b{color:var(--teal); font-weight:700}
+
+  .pitfall{display:flex; gap:11px; background:#F0F7F3; border:1px solid #CDE5DB; border-left:3px solid var(--teal-bright); border-radius:11px; padding:13px 15px; font-size:14px; color:#2f4a40; margin-top:12px}
+  .pitfall b{color:var(--teal)}
+
+  /* inline code in prose */
+  .ic{font-family:var(--mono); font-size:13px; background:var(--mint-grad); padding:1px 6px; border-radius:5px; color:var(--ink)}
+
+  /* video card */
+  .video{display:grid; grid-template-columns:320px 1fr; gap:0; background:var(--card); border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:var(--shadow); text-decoration:none; color:inherit; transition:transform .15s, box-shadow .15s}
+  .video:hover{transform:translateY(-2px); box-shadow:0 18px 40px rgba(14,107,79,.16)}
+  .video .thumb{position:relative; min-height:180px; background-size:cover; background-position:center; background-color:var(--teal-deep2)}
+  .video .play{position:absolute; inset:0; display:grid; place-items:center}
+  .video .play span{display:grid; place-items:center; width:58px; height:58px; border-radius:50%; background:rgba(14,107,79,.92); color:#fff; font-size:20px; padding-left:4px; box-shadow:0 6px 18px rgba(0,0,0,.3)}
+  .video .vmeta{padding:22px 26px}
+  .video .vmeta .tag{font-family:var(--mono); font-size:11px; color:var(--teal); font-weight:600; letter-spacing:.05em; text-transform:uppercase; display:inline-block; margin-bottom:8px}
+  .video .vmeta h3{font-size:18px; margin:0 0 7px; color:var(--teal-deep); letter-spacing:-.01em}
+  .video .vmeta p{margin:0; font-size:14.5px; color:var(--ink-soft)}
+  .video .vmeta .go{display:inline-block; margin-top:12px; font-size:14px; font-weight:700; color:var(--teal)}
+  @media(max-width:680px){ .video{grid-template-columns:1fr} .video .thumb{min-height:160px} }
+
+  /* links */
+  .links{display:grid; gap:10px; list-style:none; padding:0; margin:0}
+  .links li{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 16px; font-size:14.5px; color:var(--ink-soft); box-shadow:var(--shadow)}
+  .links a{color:var(--teal); font-weight:700; text-decoration:none}
+  .links a:hover{text-decoration:underline}
+  .note{color:var(--ink-faint); font-size:13.5px; font-family:var(--mono); margin:16px 0 0; padding-top:14px; border-top:1px solid var(--line)}
+
+  /* closing */
+  .closing{text-align:center; padding:74px 0 52px}
+  .closing h2{font-size:clamp(26px,4.4vw,44px); font-weight:800; letter-spacing:-.03em}
+  .closing p{color:var(--ink-soft); margin:16px 0 28px; font-weight:500}
+
+  footer{border-top:1px solid var(--line); padding:34px 0; font-size:13.5px; color:var(--ink-faint)}
+  .foot-in{display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; align-items:center}
+  .foot-in .mono{font-size:12px}
+  footer a{color:var(--teal); text-decoration:none}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important; scroll-behavior:auto !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="./index.html"><span class="dot"></span>Setting&nbsp;Day</a>
+    <nav class="nav-links">
+      <a href="./index.html">설치편</a>
+      <a href="./usage.html">사용편</a>
+      <a href="./advanced.html">심화편</a>
+      <a href="./extensions.html" class="here">확장편</a>
+      <span class="nav-badge mono">심화 가이드</span>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="crumb"><a href="./extensions.html">← 확장편</a> · 커뮤니티 스킬 심화</div>
+      <span class="kicker">부록 · 커뮤니티 스킬</span>
+      <h1>요약본을 읽는 대신<br><span class="hl">나에게 맞춰</span><br><span class="sig">가르치는 teach 스킬</span></h1>
+      <p class="lead"><b>teach</b>는 “이거 가르쳐줘”라고 하면, <b>내가 왜 배우는지(mission)</b>에 맞춰 <b>진도를 기억하며</b> 짧은 인터랙티브 레슨으로 가르치는 학습 스킬입니다. 요약본을 한 번 읽고 마는 공부와는 작동 방식이 다릅니다.</p>
+      <div class="quick">
+        <div class="qc"><strong>그냥 요약본</strong><span>누구에게나 같은 내용을 한 번 읽고 끝.</span></div>
+        <div class="qc"><strong>teach 스킬</strong><span>내 목표·진도를 기억하며 다음 한 걸음을 가르침.</span></div>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#diff">요약본과 뭐가 다른지 →</a>
+        <a class="btn btn-ghost" href="#need">잘 쓰려면 필요한 것</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONE-LINER -->
+  <section id="summary">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">한 문장 요약</span>
+        <h2>“가르쳐줘”라고 하면, <span class="hl">선생님처럼</span> 따라온다</h2>
+      </div>
+      <div class="card lede">
+        <p><b>teach</b> — “내가 왜 이걸 배우려는지에 맞춰, 내 진도를 파일에 기억하면서, 딱 도전적인 난이도의 짧은 인터랙티브 레슨으로 가르쳐줘.”</p>
+        <p style="margin-top:6px">핵심은 <b>stateful</b> — 폴더(워크스페이스)에 mission·진도·학습 기록을 저장해, 세션이 바뀌어도 <b>이어서</b> 가르칩니다. 정적인 요약 문서에는 없는 점입니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFF TABLE -->
+  <section id="diff">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">핵심</span>
+        <h2>그냥 요약본 공부 vs teach</h2>
+        <p>같은 “공부”지만, 여섯 가지가 다릅니다.</p>
+      </div>
+      <table>
+        <thead>
+          <tr><th>구분</th><th>그냥 요약본으로 공부</th><th>teach 스킬</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>진도 기억</td><td>매번 처음부터 — 정적 문서</td><td><b>stateful</b> — mission·진도를 파일에 저장·누적</td></tr>
+          <tr><td>무엇을 가르치나</td><td>누구에게나 같은 일반 내용</td><td>내가 <b>왜 배우는지(mission)</b>에 맞춤</td></tr>
+          <tr><td>난이도</td><td>내 수준과 무관하게 고정</td><td>ZPD — 지루하지도 겁나지도 않은 <b>딱 한 걸음</b></td></tr>
+          <tr><td>학습 방식</td><td>수동적으로 읽기</td><td>인터랙티브 레슨 — 퀴즈·실습·<b>즉시 피드백</b></td></tr>
+          <tr><td>근거</td><td>출처 불명 · 틀릴 수 있음</td><td>고신뢰 자료에서 <b>인용</b>해 제시</td></tr>
+          <tr><td>그 다음</td><td>거기서 끝</td><td>knowledge→skill→<b>wisdom</b>, 실전·커뮤니티로 연결</td></tr>
+        </tbody>
+      </table>
+      <div class="pitfall"><span>ℹ</span><div><b>ZPD</b>(zone of proximal development) — “근접발달영역”. 지금 내 수준에서 <b>혼자서는 조금 버겁지만 도움받으면 해낼 수 있는</b> 구간. teach는 매 레슨 이 구간을 노립니다.</div></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">작동 방식</span>
+        <h2>폴더 하나가 <span class="hl">학습 공간</span>이 된다</h2>
+        <p>teach는 현재 폴더를 “학습 워크스페이스”로 쓰고, 진행 상황을 파일로 남깁니다.</p>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <span class="tag">왜 배우는가</span>
+          <h3>mission</h3>
+          <p>내가 이걸 배우려는 <b>진짜 이유</b>를 기록. 모든 레슨이 여기에 맞춰집니다. 이게 비면 teach는 먼저 “왜 배우고 싶나”부터 묻습니다.</p>
+        </article>
+        <article class="card">
+          <span class="tag">믿을 자료</span>
+          <h3>resources</h3>
+          <p>웹에서 찾은 <b>고신뢰 자료</b> 목록. 모델의 기억이 아니라 검증된 출처에서 지식을 끌어옵니다.</p>
+        </article>
+        <article class="card">
+          <span class="tag">배우는 단위</span>
+          <h3>lessons (HTML)</h3>
+          <p>한 번에 <b>딱 하나</b>를 가르치는 짧은 인터랙티브 HTML. 다이어그램·퀴즈·실습이 들어가, 글 요약보다 풍부합니다. 나중에 다시 열어 복습.</p>
+        </article>
+        <article class="card">
+          <span class="tag">진도 기록</span>
+          <h3>learning records</h3>
+          <p>내가 무엇을 배웠고 무엇을 이미 아는지 기록. 다음에 <b>무엇을 가르칠지</b> 판단하는 근거가 됩니다.</p>
+        </article>
+        <article class="card">
+          <span class="tag">빠른 참조</span>
+          <h3>reference · glossary</h3>
+          <p>레슨에서 뽑은 핵심을 <b>압축한 참고 문서</b>(치트시트·용어집). 레슨은 한 번 보지만 이건 계속 들춰봅니다.</p>
+        </article>
+        <article class="card">
+          <span class="tag">지식→스킬→지혜</span>
+          <h3>그리고 세상으로</h3>
+          <p>자료로 <b>지식</b>을, 인터랙티브 연습으로 <b>스킬</b>을, 마지막엔 <b>커뮤니티·실전</b>으로 보내 지혜를 얻게 합니다. 에이전트에 가둬두지 않습니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU NEED -->
+  <section id="need">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">잘 쓰려면 필요한 것</span>
+        <h2>이 다섯 가지가 있으면 잘 굴러간다</h2>
+      </div>
+      <div class="principles">
+        <div class="p"><span class="n">1</span><h3>Claude Code(코딩 에이전트)</h3><p>teach는 <b>폴더를 워크스페이스로</b> 쓰고 파일을 만듭니다. 파일시스템 접근이 필요해, Claude 앱·웹 단독 기능이 아니라 Claude Code 같은 코딩 에이전트에서 씁니다.</p></div>
+        <div class="p"><span class="n">2</span><h3>명확한 mission</h3><p>“왜 배우려는가.” 이게 분명할수록 레슨이 내 목표에 붙습니다. 막연하면 teach가 먼저 물어봅니다.</p></div>
+        <div class="p"><span class="n">3</span><h3>전용 폴더 하나</h3><p>주제마다 빈 폴더 하나를 학습 공간으로. 진도·기록·레슨이 여기 쌓입니다.</p></div>
+        <div class="p"><span class="n">4</span><h3>여러 세션 걸친 꾸준함</h3><p>한 번에 끝내는 게 아니라, 짧은 레슨을 <b>이어서</b> 하는 stateful 학습입니다.</p></div>
+        <div class="p"><span class="n">5</span><h3>레슨에 응하는 자세</h3><p>퀴즈·실습에 직접 답하고, 막히면 “이게 헷갈려”라고 되묻기. 피드백 루프가 핵심입니다.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section id="video">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">원본 영상</span>
+        <h2>만든 사람이 직접 보여준다</h2>
+      </div>
+      <a class="video" href="https://www.youtube.com/watch?v=s5T5oQJcJ6U" target="_blank" rel="noopener noreferrer">
+        <span class="thumb" style="background-image:url('https://img.youtube.com/vi/s5T5oQJcJ6U/hqdefault.jpg')">
+          <span class="play"><span>▶</span></span>
+        </span>
+        <span class="vmeta">
+          <span class="tag">YouTube · Matt Pocock</span>
+          <h3>Learn anything with the /teach skill</h3>
+          <p>teach 스킬을 직접 만들어 루빅스 큐브를 배우는 과정으로, stateful vs stateless·설치·실행·설계 철학을 보여줍니다.</p>
+          <span class="go">영상 보기 →</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- INSTALL -->
+  <section id="install">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">적용 방법</span>
+        <h2>teach를 들여오려면</h2>
+      </div>
+      <div class="ext" style="margin-bottom:16px">
+        <div class="ext-head"><h3>원본 저장소에서 설치</h3><span class="bdg ok">권장</span></div>
+        <p class="why">teach는 Matt Pocock의 <b>커뮤니티 스킬 모음</b>에 들어 있습니다. 저장소의 <b>Quick start</b>에 있는 <span class="ic">skills.sh</span> 인스톨러를 실행하고 <b>teach</b>를 고르면 됩니다.</p>
+        <div class="cmd"><span class="prompt">↗</span><code>github.com/mattpocock/skills → Quick start → skills.sh → teach 선택</code><button class="copy">복사</button></div>
+        <p class="why" style="margin-top:10px">설치 후엔 <b>빈 폴더</b>를 하나 만들고, 그 안에서 코딩 에이전트로 teach를 실행합니다.</p>
+        <div class="cmd"><span class="prompt">$</span><code>/teach 배우고 싶은 주제</code><button class="copy">복사</button></div>
+      </div>
+      <div class="pitfall"><span>🔵</span><div><b>주의</b> — teach는 <b>커뮤니티(비공식)</b> 확장입니다. 정확한 설치 명령·옵션은 버전에 따라 다를 수 있으니, 설치 전 <b>원본 저장소의 Quick start와 영상</b>을 직접 확인하고 버전을 고정(pin)하세요. (확장은 당신 권한으로 코드를 실행합니다 — 확장편의 안전 수칙 참고.)</div></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">자주 묻는 것</span>
+        <h2>입문자가 자주 묻는 질문</h2>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <h3>그냥 요약 정리해달라고 하면 안 되나요?</h3>
+          <p>됩니다. 다만 그건 <b>한 번 읽고 끝</b>입니다. teach는 내 목표·진도를 <b>기억</b>하고, 퀴즈·실습으로 <b>직접 해보게</b> 하며, 다음에 무엇을 배울지 이어줍니다.</p>
+        </article>
+        <article class="card">
+          <h3>코딩 말고 다른 것도 배울 수 있나요?</h3>
+          <p>네. 원본에서도 <b>루빅스 큐브</b>를 배웁니다. 주제는 자유지만, 폴더에 파일을 쌓는 방식이라 <b>코딩 에이전트(Claude Code)</b>에서 돌아갑니다.</p>
+        </article>
+        <article class="card">
+          <h3>한 번에 다 끝나나요?</h3>
+          <p>아니요. 레슨은 <b>짧게, 하나씩</b>입니다. 여러 세션에 걸쳐 이어가는 걸 전제로 설계됐고, 그래서 진도를 파일로 남깁니다.</p>
+        </article>
+        <article class="card">
+          <h3>내용이 틀리면요?</h3>
+          <p>teach는 모델의 기억 대신 <b>고신뢰 자료에서 인용</b>하도록 설계됐고, 레슨에 출처 링크를 답니다. 그래도 <b>스스로 출처를 확인</b>하는 습관은 필요합니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- LINKS -->
+  <section id="links">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">관련 링크</span>
+        <h2>원본 · 출처</h2>
+      </div>
+      <ul class="links">
+        <li>원본 영상: <a href="https://www.youtube.com/watch?v=s5T5oQJcJ6U" target="_blank" rel="noopener noreferrer">Learn anything with the /teach skill (Matt Pocock)</a></li>
+        <li>Matt Pocock 스킬 모음: <a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener noreferrer">github.com/mattpocock/skills</a></li>
+      </ul>
+      <p class="note">※ 커뮤니티(비공식) 확장 · 설치 명령·옵션은 버전에 따라 다를 수 있음 — 사용 전 원본 저장소·영상에서 재확인 권장.</p>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="closing">
+    <div class="wrap">
+      <span class="kicker" style="justify-content:center">다음</span>
+      <h2>계획을 짤 땐 <span class="sig">물고 늘어지는</span> 스킬도</h2>
+      <p>구현·학습 계획의 허점을 질문으로 찾는 grill 스킬 가이드도 함께 보세요.</p>
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn btn-primary" href="./grill-skills-guide.html">grill 가이드 →</a>
+        <a class="btn btn-ghost" href="./extensions.html">← 확장편으로</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>Setting&nbsp;Day · AI 입문 셋업 캠페인</div>
+    <div class="mono">커뮤니티 스킬 심화 가이드 · 출처: mattpocock/skills · teach · 설치 전 재확인</div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.cmd .copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var code = btn.parentElement.querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(function(){
+        var t = btn.textContent; btn.textContent='복사됨 ✓'; btn.classList.add('done');
+        setTimeout(function(){ btn.textContent=t; btn.classList.remove('done'); }, 1400);
+      });
+    });
+  });
+</script>
+</body>
+</html>
